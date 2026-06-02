@@ -235,41 +235,50 @@
             100% { transform: scale(1); }
         }
 
-        /* Bulletproof landscape layout printing rules */
+        /* Single-page PORTRAIT certificate printing.
+           We add `printing-cert` to <body> while printing and remove every
+           top-level element except the certificate from the layout (display:none,
+           not visibility:hidden) so no blank/duplicate second page is produced. */
         @media print {
             @page {
-                size: landscape;
-                margin: 0;
+                size: portrait;
+                margin: 1cm;
             }
-            body * {
-                visibility: hidden !important;
-            }
-            /* Make ONLY the certificate container and all children visible */
-            #cert-container-box, #cert-container-box * {
-                visibility: visible !important;
-            }
-            #cert-container-box {
-                position: fixed !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100vw !important;
-                height: 100vh !important;
+            /* Remove everything except the certificate modal from the page flow */
+            body.printing-cert > *:not(#cert-modal) { display: none !important; }
+            /* Inside the modal, drop the on-screen header, controls and backdrop */
+            body.printing-cert #cert-modal .no-print { display: none !important; }
+            body.printing-cert #cert-modal {
+                position: static !important;
+                inset: auto !important;
+                background: none !important;
+                padding: 0 !important;
                 margin: 0 !important;
-                padding: 4rem !important;
-                border: 24px double #eab308 !important; /* Forces bold double borders */
+                overflow: visible !important;
+                display: block !important;
+            }
+            /* Lay the certificate out in normal flow, sized to its content */
+            body.printing-cert #cert-container-box {
+                position: static !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: 0 !important;
+                height: auto !important;
+                margin: 0 auto !important;
+                padding: 1.75rem !important;
+                border: 14px double #eab308 !important;
                 background-color: #fffdf5 !important;
-                display: flex !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
+                box-shadow: none !important;
                 box-sizing: border-box !important;
                 page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                page-break-after: avoid !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            /* Explicitly ensure added stickers on printed container are also drawn */
-            #sticker-canvas, .sticker-draggable {
-                visibility: visible !important;
+            /* Keep stickers visible & in colour */
+            body.printing-cert #sticker-canvas,
+            body.printing-cert .sticker-draggable {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -2835,6 +2844,17 @@
             }, 100);
         }
 
+        // Add/remove the print class so only the certificate prints, on one portrait page.
+        // beforeprint/afterprint also covers the browser's own Ctrl+P shortcut.
+        window.addEventListener('beforeprint', () => {
+            if (!document.getElementById('cert-modal').classList.contains('hidden')) {
+                document.body.classList.add('printing-cert');
+            }
+        });
+        window.addEventListener('afterprint', () => {
+            document.body.classList.remove('printing-cert');
+        });
+
         function addSticker(emoji) {
             playSound('click');
             const canvas = document.getElementById('sticker-canvas');
@@ -2946,6 +2966,43 @@
                 }
             }
         }
+
+        // ═══════════════════════════════════════════════════════
+        // PRESS ENTER TO SUBMIT
+        // Maps each text input to the action its button would run.
+        // ═══════════════════════════════════════════════════════
+        const ENTER_ACTIONS = {
+            'login-email': doLogin,
+            'setup-name-input': saveInitialSetup,
+            'setup-code-input': saveInitialSetup,
+            'code-input': verifyCode,
+            'admin-code-input': verifyAdminCode,
+            'avatar-input': saveAvatar,
+            'old-code-input': saveNewSettings,
+            'new-code-input': saveNewSettings,
+            'log-book-title': saveLogEntry,
+            'log-pages': saveLogEntry
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            const el = document.activeElement;
+            if (!el || !el.id) return;
+
+            // Multi-line fields: submit on Ctrl/Cmd+Enter, plain Enter makes a new line
+            if (el.tagName === 'TEXTAREA') {
+                if (!(e.ctrlKey || e.metaKey)) return;
+                if (el.id === 'feedback-text') { e.preventDefault(); submitFeedback(); }
+                else if (el.id === 'ac-roadmap') { e.preventDefault(); saveAdminControl(); }
+                return;
+            }
+
+            const fn = ENTER_ACTIONS[el.id];
+            if (typeof fn === 'function') {
+                e.preventDefault();
+                fn();
+            }
+        });
     </script>
 </body>
 </html>
