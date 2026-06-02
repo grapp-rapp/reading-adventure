@@ -1,0 +1,2951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Adventure 📚✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+        /* CSS variables for dynamic theme customization */
+        :root {
+            --primary-color: #ec4899;
+            --primary-hover: #db2777;
+            --bg-gradient: radial-gradient(circle at center, #fffdf0 0%, #ffedf3 100%);
+            --border-color: #f9a8d4;
+            --secondary-bg: #fdf2f8;
+            --badge-bg: #fdf2f8;
+            --badge-text: #db2777;
+            --text-color: #1f2937;
+            --subtext-color: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body.theme-pink {
+            --primary-color: #ec4899;
+            --primary-hover: #db2777;
+            --bg-gradient: radial-gradient(circle at center, #fffdf0 0%, #ffedf3 100%);
+            --border-color: #f9a8d4;
+            --secondary-bg: #fdf2f8;
+            --badge-bg: #fdf2f8;
+            --badge-text: #db2777;
+            --text-color: #1f2937;
+            --subtext-color: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.92);
+        }
+
+        body.theme-gold {
+            --primary-color: #d97706;
+            --primary-hover: #b45309;
+            --bg-gradient: radial-gradient(circle at center, #fffbeb 0%, #fef3c7 100%);
+            --border-color: #fcd34d;
+            --secondary-bg: #fffbeb;
+            --badge-bg: #fef3c7;
+            --badge-text: #b45309;
+            --text-color: #1f2937;
+            --subtext-color: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.92);
+        }
+
+        body.theme-purple {
+            --primary-color: #7c3aed;
+            --primary-hover: #6d28d9;
+            --bg-gradient: radial-gradient(circle at center, #faf5ff 0%, #f3e8ff 100%);
+            --border-color: #d8b4fe;
+            --secondary-bg: #faf5ff;
+            --badge-bg: #f3e8ff;
+            --badge-text: #6d28d9;
+            --text-color: #1f2937;
+            --subtext-color: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.92);
+        }
+
+        body.theme-turquoise {
+            --primary-color: #0d9488;
+            --primary-hover: #0f766e;
+            --bg-gradient: radial-gradient(circle at center, #f0fdfa 0%, #ccfbf1 100%);
+            --border-color: #99f6e4;
+            --secondary-bg: #f0fdfa;
+            --badge-bg: #ccfbf1;
+            --badge-text: #0f766e;
+            --text-color: #1f2937;
+            --subtext-color: #4b5563;
+            --card-bg: rgba(255, 255, 255, 0.92);
+        }
+
+        /* NEW BOY THEMES */
+        body.theme-space {
+            --primary-color: #38bdf8;
+            --primary-hover: #0284c7;
+            --bg-gradient: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+            --border-color: #38bdf8;
+            --secondary-bg: #1e293b;
+            --badge-bg: #1e293b;
+            --badge-text: #38bdf8;
+            --text-color: #f8fafc;
+            --subtext-color: #cbd5e1;
+            --card-bg: rgba(15, 23, 42, 0.95);
+        }
+
+        body.theme-dino {
+            --primary-color: #84cc16;
+            --primary-hover: #65a30d;
+            --bg-gradient: radial-gradient(circle at center, #14532d 0%, #052e16 100%);
+            --border-color: #84cc16;
+            --secondary-bg: #14532d;
+            --badge-bg: #14532d;
+            --badge-text: #84cc16;
+            --text-color: #f8fafc;
+            --subtext-color: #cbd5e1;
+            --card-bg: rgba(20, 83, 45, 0.95);
+        }
+
+        body.theme-soccer {
+            --primary-color: #22c55e;
+            --primary-hover: #16a34a;
+            --bg-gradient: radial-gradient(circle at center, #166534 0%, #14532d 100%);
+            --border-color: #4ade80;
+            --secondary-bg: #15803d;
+            --badge-bg: #15803d;
+            --badge-text: #4ade80;
+            --text-color: #f8fafc;
+            --subtext-color: #cbd5e1;
+            --card-bg: rgba(20, 83, 45, 0.95);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        /* Magical Gold Sparkle Background Particles */
+        .sparkle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(circle, rgba(255,223,0,0.15) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,215,0,0.12) 2px, transparent 2px);
+            background-size: 40px 40px, 60px 60px;
+            background-position: 0 0, 20px 30px;
+            animation: floatSparkles 12s linear infinite;
+        }
+
+        @keyframes floatSparkles {
+            0% { background-position: 0 0, 20px 30px; }
+            100% { background-position: 40px 80px, 80px 150px; }
+        }
+
+        /* Gold Gradient Borders and Accents */
+        .gold-border {
+            border: 4px solid;
+            border-image: linear-gradient(to right, #ffd700, #f0a500, #ffd700) 1;
+        }
+
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-btn {
+            background: linear-gradient(135deg, #ffe066 0%, #f5b041 50%, #f39c12 100%);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .gold-btn:hover {
+            background: linear-gradient(135deg, #fff099 0%, #f8c471 50%, #f5b041 100%);
+            transform: scale(1.03);
+        }
+
+        /* Theme-aware dynamic CSS updates */
+        .theme-border-dynamic {
+            border-color: var(--border-color) !important;
+            transition: border-color 0.5s ease;
+        }
+        .theme-text-dynamic {
+            color: var(--primary-color) !important;
+            transition: color 0.5s ease;
+        }
+        .theme-text-color {
+            color: var(--text-color) !important;
+            transition: color 0.5s ease;
+        }
+        .theme-subtext-dynamic {
+            color: var(--subtext-color) !important;
+            transition: color 0.5s ease;
+        }
+        .theme-bg-dynamic {
+            background-color: var(--secondary-bg) !important;
+            transition: background-color 0.5s ease;
+        }
+        .theme-button-dynamic {
+            background-color: var(--primary-color) !important;
+            transition: background-color 0.5s ease;
+        }
+        .theme-button-dynamic:hover {
+            background-color: var(--primary-hover) !important;
+        }
+        .theme-badge-dynamic {
+            background-color: var(--badge-bg) !important;
+            color: var(--badge-text) !important;
+            transition: all 0.5s ease;
+        }
+        .theme-progress-bar {
+            background: linear-gradient(to right, var(--primary-color), #f5b041) !important;
+            transition: width 0.5s ease, background 0.5s ease;
+        }
+        .theme-card-bg {
+            background-color: var(--card-bg) !important;
+            color: var(--text-color) !important;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Day Button styling depending on selection state */
+        .day-button-unlocked {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .day-button-unlocked:hover {
+            background-color: var(--secondary-bg);
+            border-color: var(--primary-color);
+        }
+
+        /* Daily Progress Node Checkbox styling */
+        .checked-day {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%) !important;
+            border-color: var(--primary-hover) !important;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); }
+            100% { transform: scale(1); }
+        }
+
+        /* Bulletproof landscape layout printing rules */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+            body * {
+                visibility: hidden !important;
+            }
+            /* Make ONLY the certificate container and all children visible */
+            #cert-container-box, #cert-container-box * {
+                visibility: visible !important;
+            }
+            #cert-container-box {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 4rem !important;
+                border: 24px double #eab308 !important; /* Forces bold double borders */
+                background-color: #fffdf5 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                box-sizing: border-box !important;
+                page-break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* Explicitly ensure added stickers on printed container are also drawn */
+            #sticker-canvas, .sticker-draggable {
+                visibility: visible !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Glowing Animation for Complete Rows */
+        .glowing-box {
+            animation: pulseGold 2s infinite alternate;
+        }
+
+        @keyframes pulseGold {
+            0% { box-shadow: 0 0 5px rgba(243, 156, 18, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(243, 156, 18, 0.9); }
+        }
+
+        .sticker-draggable {
+            touch-action: none;
+            user-select: none;
+        }
+        /* ── SIDEBAR ── */
+        .sidebar-panel {
+            background: var(--card-bg);
+            border-right: 2px solid var(--border-color);
+            color: var(--text-color);
+        }
+        body.dark-mode .sidebar-panel { background: #1a1a2e !important; border-color: #3a3a5a !important; }
+        body.dark-mode .sidebar-btn { color: #f1f5f9 !important; }
+        body.dark-mode .sidebar-btn:hover { background: #2a2a4a !important; }
+        .sidebar-btn {
+            width: 100%;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.75rem;
+            transition: background 0.15s;
+            color: var(--text-color);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .sidebar-btn:hover { background: var(--secondary-bg); }
+        /* ── DARK MODE ── */
+        body.dark-mode {
+            --bg-gradient: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+            --text-color: #f1f5f9;
+            --subtext-color: #94a3b8;
+            --card-bg: rgba(30, 30, 50, 0.97);
+            --secondary-bg: #1e1e3a;
+            --border-color: #4a4a6a;
+        }
+        body.dark-mode .bg-white { background-color: #1e1e3a !important; color: #f1f5f9 !important; }
+        body.dark-mode .text-stone-800 { color: #f1f5f9 !important; }
+        body.dark-mode .text-gray-600 { color: #94a3b8 !important; }
+        body.dark-mode .text-gray-500 { color: #94a3b8 !important; }
+        body.dark-mode .text-gray-400 { color: #64748b !important; }
+        body.dark-mode .bg-gray-100 { background-color: #2a2a4a !important; }
+        body.dark-mode .bg-gray-50 { background-color: #252540 !important; }
+        body.dark-mode .border-gray-100 { border-color: #3a3a5a !important; }
+        body.dark-mode .border-gray-200 { border-color: #3a3a5a !important; }
+        body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
+            background-color: #2a2a4a !important;
+            color: #f1f5f9 !important;
+            border-color: #4a4a6a !important;
+        }
+        body.dark-mode .day-button-unlocked { background-color: rgba(30,30,60,0.8); }
+
+        /* ── CONFETTI ── */
+        .confetti-piece {
+            position: fixed;
+            width: 10px; height: 10px;
+            top: -10px;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ── STREAK FIRE ── */
+        @keyframes fireFlicker {
+            0%,100% { transform: scale(1) rotate(-2deg); }
+            50%      { transform: scale(1.1) rotate(2deg); }
+        }
+        .streak-fire { animation: fireFlicker 0.8s ease-in-out infinite; display: inline-block; }
+
+        /* ── STAR RATING ── */
+        .star-btn { cursor: pointer; font-size: 1.4rem; transition: transform 0.15s; }
+        .star-btn:hover { transform: scale(1.3); }
+    </style>
+</head>
+<body class="p-3 md:p-8 theme-pink">
+    <div class="sparkle-bg"></div>
+
+    <div id="main-app" class="relative z-10 max-w-5xl mx-auto p-4 md:p-8 rounded-3xl shadow-2xl border-4 theme-border-dynamic theme-card-bg">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 relative border-b-2 border-pink-100 pb-6">
+            <!-- ── SIDEBAR ── -->
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-64 z-[200] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl sidebar-panel">
+            <div class="flex flex-col h-full p-4 overflow-y-auto">
+                <!-- Sidebar header -->
+                <div class="flex items-center justify-between mb-6 pt-2">
+                    <span id="sb-menu-title" class="font-extrabold text-lg theme-text-dynamic">📚 Menu</span>
+                    <button onclick="closeSidebar()" class="text-2xl hover:opacity-70 transition">✕</button>
+                </div>
+
+                <!-- Profile section inside sidebar -->
+                <div id="sb-account-section" class="mb-4 pb-4 border-b" style="border-color:var(--border-color)">
+                    <div id="sb-logged-in" class="hidden">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-2xl">👤</span>
+                            <p id="sb-email" class="text-xs font-bold truncate" style="color:var(--subtext-color)"></p>
+                        </div>
+                        <button id="sb-admin-btn" onclick="closeSidebar();openAdminLogin();" class="hidden w-full text-left text-xs text-orange-500 hover:bg-orange-50 px-3 py-2 rounded-xl font-semibold transition mb-1">🔐 Admin Login</button>
+                        <button onclick="doLogout()" class="w-full text-left text-xs text-red-500 hover:bg-red-50 px-3 py-2 rounded-xl font-semibold transition">🚪 Sign Out</button>
+                    </div>
+                    <div id="sb-logged-out">
+                        <button onclick="closeSidebar();openLoginOverlay();" class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold px-3 py-2 rounded-xl text-sm transition flex items-center gap-2">🔑 Sign In</button>
+                    </div>
+                </div>
+
+                <!-- Nav items -->
+                <div class="flex flex-col gap-1 flex-1">
+                    <button id="sb-stats-btn" onclick="closeSidebar();openStats();" class="hidden sidebar-btn">📊 My Stats</button>
+                    <button id="sb-lb-btn" onclick="closeSidebar();openLeaderboard();" class="hidden sidebar-btn">🏆 Leaderboard</button>
+                    <button onclick="closeSidebar();openSettings();" class="sidebar-btn">⚙️ Settings</button>
+                    <button onclick="closeSidebar();openDonate();" class="sidebar-btn">💝 Support Us</button>
+                    <button id="sb-feedback-btn" onclick="closeSidebar();openFeedback();" class="sidebar-btn">💬 Suggest</button>
+                    <button id="sb-inbox-btn" onclick="closeSidebar();openInbox();" class="hidden sidebar-btn">📬 Inbox</button>
+                    <button onclick="closeSidebar();openRoadmap();" class="sidebar-btn">🗺️ Coming Soon</button>
+                    <button onclick="closeSidebar();toggleDarkMode();" id="sb-dark-btn" class="sidebar-btn">🌙 Dark Mode</button>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar backdrop -->
+        <div id="sidebar-backdrop" onclick="closeSidebar()" class="hidden fixed inset-0 bg-black/40 z-[199] backdrop-blur-sm"></div>
+
+        <!-- ── PERSISTENT TOP BAR (always visible) ── -->
+        <div class="absolute top-0 left-0 right-0 flex items-center justify-between no-print" style="z-index:10">
+            <!-- Left: hamburger + profile/login -->
+            <div class="flex items-center gap-2">
+                <button onclick="toggleSidebar()" class="text-2xl p-1.5 rounded-xl hover:bg-black/10 transition" title="Menu">☰</button>
+                <!-- Profile badge (logged in) -->
+                <div id="account-badge" class="hidden">
+                    <span id="account-badge-text" class="text-xs bg-green-100 text-green-700 font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm cursor-pointer hover:bg-green-200 transition" onclick="toggleSidebar()">👤 <span id="account-email-display" class="max-w-[60px] truncate hidden sm:inline"></span></span>
+                </div>
+                <!-- Login button (guest) -->
+                <button id="login-btn" onclick="openLoginOverlay()" class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm transition">
+                    🔑 <span class="hidden sm:inline">Sign In</span>
+                </button>
+            </div>
+            <!-- Right: sound + language (always visible) -->
+            <div class="flex items-center gap-1.5">
+                <button id="audio-toggle-btn" onclick="toggleAudio()" class="text-xs font-bold theme-badge-dynamic px-3 py-1.5 rounded-full transition flex items-center gap-1 shadow-sm">🔊</button>
+                <button onclick="toggleRTL()" id="rtl-btn-desktop" class="text-xs font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full transition shadow-sm">עב</button>
+            </div>
+        </div>
+
+            <h1 class="text-3xl md:text-5xl font-bold mb-2 pt-12 sm:pt-8 md:pt-4">
+                <span id="app-title-text" class="theme-text-dynamic">Reading Adventure</span>
+                <span id="app-title-decor" class="gold-text-gradient font-serif">✨📚</span>
+            </h1>
+            <p id="month-indicator" class="text-lg md:text-xl font-bold theme-badge-dynamic inline-block px-4 py-1.5 rounded-full mt-2">
+                🌸 Loading Tracker...
+            </p>
+            <p id="app-subtitle" class="theme-subtext-dynamic italic mt-2 text-sm md:text-base">"Read every day to earn prizes & Kiosk rewards!"</p>
+        </header>
+
+        <!-- Admin broadcast announcement banner -->
+        <div id="announcement-banner" class="hidden text-center text-sm font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-300 rounded-xl py-2 px-4 mb-4"></div>
+
+        <!-- Daily motivational quote -->
+        <div id="quote-bar" class="text-center text-xs italic theme-subtext-dynamic mb-4 px-4 opacity-80"></div>
+
+        <!-- Avatar + Streak bar -->
+        <div id="avatar-streak-bar" class="hidden flex items-center justify-between mb-4 px-2">
+            <div class="flex items-center gap-2">
+                <span id="avatar-display" class="text-4xl cursor-pointer hover:scale-110 transition-transform" onclick="openAvatarPicker()" title="Change avatar">🧒</span>
+                <div>
+                    <p id="avatar-hint" class="text-xs text-gray-400 font-semibold">Tap to change avatar</p>
+                    <p id="child-name-display" class="font-bold theme-text-dynamic text-sm"></p>
+                </div>
+            </div>
+            <div id="streak-display" class="flex items-center gap-1 bg-orange-50 border border-orange-200 rounded-2xl px-3 py-1.5">
+                <span class="streak-fire text-2xl">🔥</span>
+                <div class="text-left">
+                    <p id="streak-label" class="text-xs text-gray-400 leading-none">Streak</p>
+                    <p id="streak-count" class="font-extrabold text-orange-600 text-lg leading-none">0</p>
+                </div>
+                <div id="freeze-shields" class="flex gap-0.5 ml-2"></div>
+            </div>
+        </div>
+
+        <!-- Avatar Picker Inline Panel (hidden by default) -->
+        <div id="avatar-picker-panel" class="hidden mb-4 bg-white border-2 border-pink-200 rounded-2xl p-4 shadow-md">
+            <p class="text-sm font-bold text-gray-600 mb-2 text-center">Pick your avatar emoji! 🎨</p>
+            <input type="text" id="avatar-input" maxlength="2" class="w-full border-2 border-pink-300 rounded-xl p-2 text-center text-3xl mb-2 focus:outline-none focus:border-pink-500" placeholder="😊">
+            <p class="text-xs text-gray-400 text-center mb-2">Type or paste any emoji</p>
+            <div class="flex gap-2">
+                <button onclick="saveAvatar()" class="flex-1 bg-pink-500 text-white rounded-xl py-2 font-bold text-sm">Save ✓</button>
+                <button onclick="closeAvatarPicker()" class="flex-1 bg-gray-200 text-gray-600 rounded-xl py-2 font-bold text-sm">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Weekly/Milestone Breakdown Board -->
+        <div id="weeks-container" class="space-y-6">
+            <!-- Weeks will be injected dynamically by JavaScript here -->
+        </div>
+
+        <!-- Grand Monthly Reward Status (Bottom Area) -->
+        <div id="monthly-reward-card" class="mt-8 bg-gradient-to-r from-pink-100/20 via-yellow-100/20 to-pink-100/20 p-6 rounded-2xl border-4 border-yellow-300 text-center relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-yellow-300 opacity-20 rounded-full blur-xl"></div>
+            <div class="absolute -bottom-10 -left-10 w-24 h-24 bg-pink-400 opacity-20 rounded-full blur-xl"></div>
+
+            <h3 id="monthly-prize-title" class="text-2xl font-bold theme-text-dynamic mb-2 flex justify-center items-center gap-2">
+                🏆 Grand Monthly Prize! 🥳
+            </h3>
+            <p id="monthly-reward-desc" class="theme-subtext-dynamic font-semibold mb-4">
+                Complete all 24 days to print a personalized reading certificate and claim your reward!
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button id="certificate-btn" onclick="showCertificate()" class="hidden gold-btn text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform text-lg flex items-center gap-2">
+                    🎓 Claim & Decorate Certificate! ✨
+                </button>
+                <button id="next-month-btn" onclick="triggerNextMonthApproval()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition-transform text-lg flex items-center gap-2">
+                    ➡️ Start Next Month!
+                </button>
+            </div>
+
+            <!-- Overall Progress bar -->
+            <div class="mt-4 max-w-md mx-auto">
+                <div class="flex justify-between text-xs theme-text-dynamic font-bold mb-1">
+                    <span id="overall-progress-label">Overall Month Progress</span>
+                    <span id="overall-percentage">0% Done</span>
+                </div>
+                <div class="w-full bg-pink-200/50 rounded-full h-4 overflow-hidden border border-pink-300">
+                    <div id="overall-progress-bar" class="theme-progress-bar h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCOUNT LOGIN OVERLAY (shown above everything) -->
+    <div id="account-overlay" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-[100]">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center border-4 border-pink-300 text-stone-800">
+            <div class="text-5xl mb-3">📚✨</div>
+            <h2 class="text-2xl font-bold text-pink-600 mb-1">Reading Adventure</h2>
+            <p class="text-sm text-gray-500 mb-6">Enter your email to save & load your progress!</p>
+
+            <div class="space-y-3">
+                <input type="email" id="login-email" class="w-full p-3 border-2 border-pink-200 rounded-xl text-sm focus:outline-none focus:border-pink-400" placeholder="Parent email address">
+                <div id="login-msg" class="text-red-500 text-xs font-semibold hidden"></div>
+                <button onclick="doLogin()" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-2xl font-bold text-sm hover:opacity-90 transition">
+                    Let's Go! 🚀
+                </button>
+            </div>
+
+            <div class="mt-4 border-t border-gray-100 pt-4">
+                <button onclick="continueAsGuest()" class="text-xs text-gray-400 hover:text-gray-600 underline transition">
+                    Continue without saving
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAYS (Authentication, Configuration, Celebrations) -->
+    <div id="modal-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+
+        <!-- Parent Setup Modal (Only shown on very first launch) -->
+        <div id="setup-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-md w-full text-center border-4 border-pink-300 shadow-2xl text-stone-800">
+            <h2 class="text-3xl font-bold text-pink-600 mb-2">Welcome! 💕</h2>
+            <p class="mb-4 text-purple-600 font-semibold">Let's set up your child's magical reading chart.</p>
+
+            <div class="space-y-4 mb-6 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Child's Name</label>
+                    <input type="text" id="setup-name-input" class="w-full p-3 border-2 border-pink-200 rounded-xl text-center text-lg font-bold text-purple-600 focus:outline-none focus:border-pink-500" placeholder="e.g. Hodaya" value="Hodaya">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Parent Approval Security Code</label>
+                    <input type="password" id="setup-code-input" class="w-full p-3 border-2 border-pink-200 rounded-xl text-center text-2xl font-bold tracking-widest text-pink-600 focus:outline-none focus:border-pink-500" placeholder="Set Code (e.g. 1234)">
+                </div>
+            </div>
+
+            <div id="setup-msg" class="text-red-500 mb-3 text-sm font-semibold hidden"></div>
+
+            <button onclick="saveInitialSetup()" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition">
+                ✨ Start the Adventure!
+            </button>
+        </div>
+
+        <!-- Parent Verification Modal (Used for both Star Additions and Star Removals) -->
+        <div id="auth-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-sm w-full text-center border-4 border-yellow-300 shadow-2xl text-stone-800">
+            <h2 class="text-2xl font-bold text-yellow-600 mb-2">🔑 Parent Approval</h2>
+            <p id="auth-desc" class="mb-4 text-gray-600 text-sm">Please enter your parental code to verify reading session:</p>
+            <input type="password" id="code-input" class="w-full p-4 border-2 border-yellow-200 rounded-2xl mb-4 text-center text-3xl font-bold tracking-widest text-purple-700 focus:outline-none focus:border-yellow-400" placeholder="••••">
+            <div id="auth-msg" class="text-red-500 mb-3 text-sm font-semibold hidden"></div>
+            <div class="flex gap-2">
+                <button onclick="closeModals()" class="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-xl font-bold text-gray-700 transition">Cancel</button>
+                <button onclick="verifyCode()" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 rounded-xl font-bold transition">Confirm</button>
+            </div>
+        </div>
+
+        <!-- Parent Settings Modification Modal -->
+        <div id="settings-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-md w-full text-center border-4 border-purple-300 shadow-2xl overflow-y-auto max-h-[90vh] text-stone-800">
+            <h2 class="text-2xl font-bold text-purple-600 mb-4">⚙️ Parent Dashboard</h2>
+            <div class="space-y-4 mb-4 text-left">
+                <!-- Child Name -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Child's Name</label>
+                    <input type="text" id="settings-name-input" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-bold text-purple-700 focus:outline-none focus:border-purple-500" placeholder="e.g. Hodaya">
+                </div>
+                <!-- Custom Weekly Reward -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Milestone Reward (Row Complete)</label>
+                    <input type="text" id="settings-weekly-prize" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-semibold text-stone-700 text-sm focus:outline-none focus:border-purple-500" placeholder="e.g. 3 Shekels (3₪) for the Kiosk or a special prize!">
+                </div>
+                <!-- Custom Monthly Reward -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Grand Monthly Prize</label>
+                    <input type="text" id="settings-monthly-prize" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-semibold text-stone-700 text-sm focus:outline-none focus:border-purple-500" placeholder="e.g. 7 Shekels (7₪) & Sparkly Certificate!">
+                </div>
+                <!-- App Color Theme Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">App Color Theme</label>
+                    <select id="settings-theme-select" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-semibold text-stone-700 text-sm bg-white focus:outline-none focus:border-purple-500">
+                        <option value="pink">🎀 Princess Pink</option>
+                        <option value="gold">🌟 Golden Sparkle</option>
+                        <option value="purple">🔮 Purple Dream</option>
+                        <option value="turquoise">🌊 Ocean Magic</option>
+                        <option value="space">🚀 Space Explorer</option>
+                        <option value="dino">🦖 Dino Adventure</option>
+                        <option value="soccer">⚽ Soccer Champion</option>
+                    </select>
+                </div>
+                <!-- Prize Interval Customization -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prize Frequency (Reward Interval)</label>
+                    <select id="settings-interval-select" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-semibold text-stone-700 text-sm bg-white focus:outline-none focus:border-purple-500">
+                        <option value="3">Every 3 Days (8 Milestone Prizes)</option>
+                        <option value="4">Every 4 Days (6 Milestone Prizes)</option>
+                        <option value="6">Every 6 Days (4 Milestone Prizes - standard)</option>
+                        <option value="8">Every 8 Days (3 Milestone Prizes)</option>
+                    </select>
+                </div>
+                <!-- Sound Effects Checkbox -->
+                <div class="flex items-center gap-2 py-1">
+                    <input type="checkbox" id="settings-audio-checkbox" class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                    <label for="settings-audio-checkbox" class="text-sm font-semibold text-gray-600">Enable Sound Effects & Chimes</label>
+                </div>
+                <!-- Freeze earn interval -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">🛡️ Streak Freeze — Earn 1 Shield Every</label>
+                    <select id="settings-freeze-interval" class="w-full p-2.5 border-2 border-purple-200 rounded-xl font-semibold text-stone-700 text-sm bg-white focus:outline-none focus:border-purple-500">
+                        <option value="3">Every 3 days</option>
+                        <option value="5">Every 5 days</option>
+                        <option value="7" selected>Every 7 days (1 week)</option>
+                        <option value="10">Every 10 days</option>
+                        <option value="14">Every 14 days (2 weeks)</option>
+                    </select>
+                </div>
+                <!-- Passcode Authorization confirmations -->
+                <div class="border-t border-purple-100 pt-3">
+                    <label class="block text-xs font-bold text-red-500 uppercase mb-1">Verify Current Code (Required to Save)</label>
+                    <input type="password" id="old-code-input" class="w-full p-2.5 border-2 border-gray-200 rounded-xl text-center focus:outline-none focus:border-red-500" placeholder="Enter Old Code">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Change Code (Leave blank to keep same)</label>
+                    <input type="password" id="new-code-input" class="w-full p-2.5 border-2 border-purple-200 rounded-xl text-center focus:outline-none focus:border-purple-500" placeholder="Enter New Code">
+                </div>
+            </div>
+            <div id="settings-msg" class="text-red-500 mb-3 text-sm font-semibold hidden"></div>
+            <div class="flex gap-2">
+                <button onclick="closeModals()" class="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-xl font-bold text-gray-700 transition">Cancel</button>
+                <button onclick="saveNewSettings()" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-bold transition">Save Changes</button>
+            </div>
+            <button onclick="openResetConfirmation()" class="w-full mt-6 bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2 rounded-xl text-sm transition">
+                ⚠️ Completely Reset App
+            </button>
+        </div>
+
+        <!-- 💝 DONATE MODAL -->
+        <div id="donate-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-green-300 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-3">💝</div>
+            <h2 class="text-2xl font-bold text-green-600 mb-1">Support Reading Adventure</h2>
+            <p class="text-xs text-gray-400 mb-5">Made with love for kids who love to read 📚</p>
+
+            <div class="text-left space-y-4 mb-6">
+                <div class="bg-green-50 border border-green-200 rounded-2xl p-4">
+                    <h3 class="font-bold text-green-700 mb-1">✨ Why this app is free</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">I built Reading Adventure because I wanted kids to love reading — and I'm sharing it for free with every family. No ads, no paywalls, no subscriptions. Ever. 📚</p>
+                </div>
+
+                <div class="bg-pink-50 border border-pink-200 rounded-2xl p-4">
+                    <h3 class="font-bold text-pink-600 mb-1">🙏 Support the creator</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">This app costs nothing to run — but it took a lot of time and love to build. If it's helped your child enjoy reading, a small donation is a wonderful way to say thank you and encourage me to keep adding new features! ❤️</p>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+                    <h3 class="font-bold text-yellow-600 mb-2">🌟 Every bit means a lot</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">Even the smallest donation puts a huge smile on my face and motivates me to keep improving the app for your kids. Thank you so much for your kindness! 💛</p>
+                </div>
+            </div>
+
+            <a href="https://www.paypal.com/paypalme/gershyrapp" target="_blank" rel="noopener"
+               class="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg transition mb-5">
+                💙 Donate via PayPal
+            </a>
+
+            <button onclick="closeModals()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-3 rounded-2xl font-bold transition">
+                Close
+            </button>
+        </div>
+
+        <!-- 💬 FEEDBACK MODAL -->
+        <div id="feedback-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-purple-300 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-3">💬</div>
+            <h2 class="text-2xl font-bold text-purple-600 mb-1">Send Me a Message</h2>
+            <p class="text-xs text-gray-400 mb-5">Got an idea or suggestion? I read every message! 🙏</p>
+
+            <div id="feedback-sent-msg" class="hidden bg-green-50 border-2 border-green-300 rounded-2xl p-4 mb-4">
+                <p class="text-green-700 font-bold text-sm">✅ Message sent! I'll get back to you soon 😊</p>
+            </div>
+
+            <div id="feedback-form-area" class="text-left space-y-3 mb-5">
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 text-xs text-purple-700 font-semibold">
+                    📧 Sending as: <span id="feedback-sender-email" class="font-bold"></span>
+                </div>
+                <textarea id="feedback-text" rows="5" maxlength="500"
+                    class="w-full p-3 border-2 border-purple-200 rounded-xl text-sm focus:outline-none focus:border-purple-400 resize-none"
+                    placeholder="Write your idea, suggestion or feedback here... (max 500 characters)"></textarea>
+                <div class="text-right text-xs text-gray-400"><span id="feedback-char-count">0</span>/500</div>
+                <div id="feedback-error" class="hidden text-red-500 text-xs font-semibold"></div>
+            </div>
+
+            <button onclick="submitFeedback()" id="feedback-submit-btn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-2xl font-bold text-sm hover:opacity-90 transition mb-3">
+                Send Message 🚀
+            </button>
+            <button onclick="closeModals()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-3 rounded-2xl font-bold transition">
+                Close
+            </button>
+        </div>
+
+        <!-- 📬 INBOX MODAL (admin: all messages + reply; user: own messages + replies) -->
+        <div id="inbox-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-indigo-400 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-2">📬</div>
+            <h2 id="inbox-title" class="text-2xl font-bold text-indigo-600 mb-1">Admin Inbox</h2>
+            <p id="inbox-subtitle" class="text-xs text-gray-400 mb-3">Messages from your users</p>
+            <div id="inbox-admin-tools" class="flex gap-2 mb-4">
+                <button onclick="openAdminLeaderboard()" class="flex-1 text-xs bg-yellow-100 hover:bg-yellow-200 text-yellow-700 font-bold py-2 rounded-xl transition">🏆 Manage Leaderboard</button>
+                <button onclick="openAdminControl()" class="flex-1 text-xs bg-red-100 hover:bg-red-200 text-red-700 font-bold py-2 rounded-xl transition">⚙️ App Control</button>
+            </div>
+            <div id="inbox-list" class="space-y-3 mb-5 text-left">
+                <p class="text-gray-400 text-sm text-center py-4">Loading messages...</p>
+            </div>
+            <button onclick="closeModals()" class="w-full bg-gradient-to-r from-indigo-400 to-purple-400 text-white py-3 rounded-2xl font-bold hover:opacity-90 transition">
+                Close
+            </button>
+        </div>
+
+        <!-- 👑 ADMIN LEADERBOARD MANAGER -->
+        <div id="admin-lb-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-red-400 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-2">👑</div>
+            <h2 class="text-2xl font-bold text-red-600 mb-1">Manage Leaderboard</h2>
+            <p class="text-xs text-gray-400 mb-4">Delete any entry from the leaderboard</p>
+            <div id="admin-lb-list" class="space-y-2 mb-5 text-left">
+                <p class="text-gray-400 text-sm text-center py-4">Loading...</p>
+            </div>
+            <button onclick="document.getElementById('admin-lb-modal').classList.add('hidden'); document.getElementById('inbox-modal').classList.remove('hidden');" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-2xl font-bold transition">← Back to Inbox</button>
+        </div>
+
+        <!-- ⚙️ ADMIN APP CONTROL PANEL -->
+        <div id="admin-control-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-md w-full text-center border-4 border-red-400 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-2">⚙️</div>
+            <h2 class="text-2xl font-bold text-red-600 mb-1">App Control Panel</h2>
+            <p class="text-xs text-gray-400 mb-4">Changes here apply to the whole app 👑</p>
+            <div class="space-y-4 text-left mb-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">App Title</label>
+                    <input type="text" id="ac-title" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">App Subtitle</label>
+                    <input type="text" id="ac-subtitle" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">📢 Announcement Banner (blank = off)</label>
+                    <input type="text" id="ac-announcement" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm focus:outline-none focus:border-red-500" placeholder="e.g. New prizes added this week!">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Default Weekly Prize (new users)</label>
+                    <input type="text" id="ac-weekly" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Default Monthly Prize (new users)</label>
+                    <input type="text" id="ac-monthly" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Default Prize Interval (new users)</label>
+                    <select id="ac-interval" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-sm bg-white focus:outline-none focus:border-red-500">
+                        <option value="3">Every 3 Days</option>
+                        <option value="4">Every 4 Days</option>
+                        <option value="6">Every 6 Days</option>
+                        <option value="8">Every 8 Days</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">🗺️ Coming Soon List</label>
+                    <p class="text-[10px] text-gray-400 mb-1">One feature per line — format: <code>emoji | Title | Description</code></p>
+                    <textarea id="ac-roadmap" rows="6" class="w-full p-2.5 border-2 border-red-200 rounded-xl text-xs font-mono focus:outline-none focus:border-red-500 resize-none"></textarea>
+                </div>
+            </div>
+            <div id="ac-msg" class="hidden text-green-600 text-sm font-semibold mb-2"></div>
+            <div class="flex gap-2">
+                <button onclick="document.getElementById('admin-control-modal').classList.add('hidden'); document.getElementById('inbox-modal').classList.remove('hidden');" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-2xl font-bold transition">← Back</button>
+                <button onclick="saveAdminControl()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-2xl font-bold transition">Save 👑</button>
+            </div>
+        </div>
+
+        <!-- 📊 MY STATS MODAL -->
+        <div id="stats-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-orange-300 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-2">📊</div>
+            <h2 id="stats-child-name" class="text-2xl font-bold text-orange-600 mb-1">My Reading Stats</h2>
+            <p class="text-xs text-gray-400 mb-5">Your reading journey in numbers! 🌟</p>
+
+            <!-- Streak section -->
+            <div class="bg-orange-50 border-2 border-orange-200 rounded-2xl p-4 mb-4">
+                <div class="flex justify-around">
+                    <div class="text-center">
+                        <div class="text-3xl streak-fire">🔥</div>
+                        <p id="stats-current-streak" class="text-3xl font-extrabold text-orange-600">0</p>
+                        <p class="text-xs text-gray-500 font-semibold">Current Streak</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl">🏅</div>
+                        <p id="stats-best-streak" class="text-3xl font-extrabold text-orange-400">0</p>
+                        <p class="text-xs text-gray-500 font-semibold">Best Streak</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl">🛡️</div>
+                        <p id="stats-freezes" class="text-3xl font-extrabold text-blue-600">0</p>
+                        <p class="text-xs text-gray-500 font-semibold">Freeze Shields</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book stats -->
+            <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-4 mb-4">
+                <div class="flex justify-around">
+                    <div class="text-center">
+                        <div class="text-3xl">📚</div>
+                        <p id="stats-books-read" class="text-3xl font-extrabold text-purple-600">0</p>
+                        <p class="text-xs text-gray-500 font-semibold">Books Logged</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl">📄</div>
+                        <p id="stats-pages-read" class="text-3xl font-extrabold text-purple-400">0</p>
+                        <p class="text-xs text-gray-500 font-semibold">Pages Read</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl">⭐</div>
+                        <p id="stats-avg-stars" class="text-3xl font-extrabold text-yellow-500">-</p>
+                        <p class="text-xs text-gray-500 font-semibold">Avg Rating</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reading chart -->
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 mb-4">
+                <p class="text-xs font-bold text-blue-600 mb-3 text-left">📅 This Month's Reading Days</p>
+                <div id="stats-chart" class="flex items-end gap-1 h-16 justify-center"></div>
+                <p class="text-xs text-gray-400 mt-1">Each bar = one week</p>
+            </div>
+
+            <!-- Reading Log -->
+            <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-4 mb-4 text-left">
+                <div class="flex justify-between items-center mb-3">
+                    <p class="text-sm font-bold text-green-700">📖 Reading Log</p>
+                    <button onclick="openLogEntry()" class="text-xs bg-green-500 text-white px-3 py-1 rounded-full font-bold hover:bg-green-600 transition">+ Add Entry</button>
+                </div>
+                <div id="reading-log-list" class="space-y-2 max-h-40 overflow-y-auto">
+                    <p class="text-xs text-gray-400 text-center py-2">No books logged yet — add your first! 📚</p>
+                </div>
+            </div>
+
+            <!-- Log entry form (hidden by default) -->
+            <div id="log-entry-form" class="hidden bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 mb-4 text-left space-y-2">
+                <p class="text-sm font-bold text-yellow-700">Add a Book Entry</p>
+                <input type="text" id="log-book-title" maxlength="60" class="w-full border-2 border-yellow-200 rounded-xl p-2 text-sm focus:outline-none focus:border-yellow-400" placeholder="Book title...">
+                <input type="number" id="log-pages" min="1" max="9999" class="w-full border-2 border-yellow-200 rounded-xl p-2 text-sm focus:outline-none focus:border-yellow-400" placeholder="Pages read">
+                <div class="flex gap-1 justify-center" id="log-stars-input">
+                    <span class="star-btn" data-star="1" onclick="setLogStar(1)">☆</span>
+                    <span class="star-btn" data-star="2" onclick="setLogStar(2)">☆</span>
+                    <span class="star-btn" data-star="3" onclick="setLogStar(3)">☆</span>
+                    <span class="star-btn" data-star="4" onclick="setLogStar(4)">☆</span>
+                    <span class="star-btn" data-star="5" onclick="setLogStar(5)">☆</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="saveLogEntry()" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl font-bold text-sm transition">Save ✓</button>
+                    <button onclick="document.getElementById('log-entry-form').classList.add('hidden')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-xl font-bold text-sm transition">Cancel</button>
+                </div>
+            </div>
+
+            <button onclick="closeModals()" class="w-full bg-gradient-to-r from-orange-400 to-pink-400 text-white py-3 rounded-2xl font-bold hover:opacity-90 transition">Close</button>
+        </div>
+
+        <!-- 🔐 ADMIN LOGIN MODAL -->
+        <div id="admin-login-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-sm w-full text-center border-4 border-orange-400 shadow-2xl text-stone-800">
+            <div class="text-5xl mb-3">🔐</div>
+            <h2 class="text-2xl font-bold text-orange-600 mb-1">Admin Access</h2>
+            <p class="text-xs text-gray-400 mb-5">Enter the admin code to unlock admin mode</p>
+            <input type="password" id="admin-code-input" class="w-full p-3 border-2 border-orange-200 rounded-xl text-sm focus:outline-none focus:border-orange-400 mb-2" placeholder="Admin code">
+            <div id="admin-code-msg" class="hidden text-red-500 text-xs font-semibold mb-2"></div>
+            <button onclick="verifyAdminCode()" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-2xl font-bold text-sm hover:opacity-90 transition mb-3">
+                Unlock Admin 🔓
+            </button>
+            <button onclick="closeModals()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-2 rounded-2xl font-bold text-sm transition">Cancel</button>
+        </div>
+
+        <!-- 🗺️ COMING SOON ROADMAP MODAL -->
+        <div id="roadmap-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-teal-300 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-3">🗺️</div>
+            <h2 class="text-2xl font-bold text-teal-600 mb-1">Coming Soon!</h2>
+            <p class="text-xs text-gray-400 mb-5">Features we're building next — your suggestions made these happen! 💡</p>
+            <div id="roadmap-list" class="space-y-3 text-left mb-6"></div>
+            <p class="text-xs text-gray-400 mb-4">Have another idea? Hit the 💬 Suggest button and tell us!</p>
+            <button onclick="closeModals()" class="w-full bg-gradient-to-r from-teal-400 to-blue-400 text-white py-3 rounded-2xl font-bold hover:opacity-90 transition">Close</button>
+        </div>
+
+        <!-- 🏆 LEADERBOARD MODAL -->
+        <div id="leaderboard-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-lg w-full text-center border-4 border-yellow-400 shadow-2xl text-stone-800 overflow-y-auto max-h-[90vh]">
+            <div class="text-5xl mb-2">🏆</div>
+            <h2 class="text-2xl font-bold text-yellow-600 mb-1">Reading Leaderboard</h2>
+            <p class="text-xs text-gray-400 mb-5">Top readers this month — ranked by days completed!</p>
+
+            <div id="leaderboard-list" class="space-y-2 mb-5 text-left">
+                <p class="text-gray-400 text-sm text-center py-4">Loading scores...</p>
+            </div>
+
+            <div id="leaderboard-your-rank" class="hidden bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-3 mb-3 text-sm font-bold text-yellow-700"></div>
+
+            <div id="lb-delete-confirm" class="hidden bg-red-50 border-2 border-red-300 rounded-2xl p-3 mb-3 text-sm text-red-700">
+                <p class="font-bold mb-2">⚠️ Remove yourself from the leaderboard?</p>
+                <div class="flex gap-2">
+                    <button onclick="cancelLbDelete()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-1.5 rounded-xl text-xs font-bold transition">Cancel</button>
+                    <button onclick="confirmLbDelete()" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-1.5 rounded-xl text-xs font-bold transition">Yes, Remove Me</button>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button id="lb-delete-btn" onclick="askLbDelete()" class="hidden flex-1 bg-red-100 hover:bg-red-200 text-red-600 py-3 rounded-2xl font-bold text-sm transition">🗑️ Remove Me</button>
+                <button onclick="closeModals()" class="flex-1 bg-gradient-to-r from-yellow-400 to-pink-400 text-white py-3 rounded-2xl font-bold hover:opacity-90 transition">
+                    Close
+                </button>
+            </div>
+        </div>
+
+        <!-- Custom Reset Confirmation Modal (Replacing browser confirm) -->
+        <div id="reset-confirm-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-sm w-full text-center border-4 border-red-400 shadow-2xl text-stone-800">
+            <div class="text-5xl mb-3 animate-pulse">⚠️</div>
+            <h2 class="text-2xl font-bold text-red-600 mb-2">Completely Reset?</h2>
+            <p class="text-gray-600 text-sm mb-6">Are you absolutely sure you want to reset ALL data? This will clear all tracked days, names, codes, and start you back at Month 1.</p>
+            <div class="flex gap-2">
+                <button onclick="closeResetConfirmation()" class="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-xl font-bold text-gray-700 transition">Cancel</button>
+                <button onclick="executeCompleteReset()" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold transition">Yes, Clear All</button>
+            </div>
+        </div>
+
+        <!-- Week Completed Celebration Modal -->
+        <div id="week-celebration-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-md w-full text-center border-4 border-yellow-400 shadow-2xl relative overflow-hidden text-stone-800">
+            <div class="text-6xl mb-4 animate-bounce">🎁✨</div>
+            <h2 id="week-celebration-name" class="text-3xl font-bold text-yellow-600 mb-2">REWARD UNLOCKED!</h2>
+            <p class="text-lg text-purple-700 font-semibold mb-4">Amazing reading work! 🔥</p>
+            <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 mb-6">
+                <p id="week-celebration-gift-for" class="text-xl font-bold text-pink-600">🎉 Child gets:</p>
+                <p id="week-celebration-prize-text" class="text-2xl font-bold text-purple-800 mt-2">Custom Reward!</p>
+            </div>
+            <button onclick="closeModals()" class="w-full bg-gradient-to-r from-yellow-500 to-pink-500 text-white py-3 rounded-2xl font-bold text-lg hover:opacity-90 transition shadow-md">
+                Claim Reward & Keep Reading! 💖
+            </button>
+        </div>
+
+        <!-- Month Completed Celebration Modal -->
+        <div id="month-celebration-modal" class="hidden bg-white p-6 md:p-8 rounded-3xl max-w-md w-full text-center border-4 border-pink-400 shadow-2xl text-stone-800">
+            <div class="text-7xl mb-4 animate-bounce">🏆🥳</div>
+            <h2 class="text-3xl font-bold text-pink-600 mb-2">GRAND FINALE! 🏆</h2>
+            <p class="text-lg text-purple-700 font-semibold mb-4">You finished the ENTIRE month!</p>
+            <div class="bg-pink-50 p-5 rounded-2xl border border-pink-200 mb-6 space-y-3">
+                <p id="month-celebration-earned-for" class="text-xl font-bold text-purple-800">🎉 Reading Star has earned:</p>
+                <p id="month-celebration-prize-text" class="text-3xl font-bold text-pink-600">⭐️ Custom Grand Reward ⭐️</p>
+                <p class="text-sm text-gray-500">and your official printable reading certificate decorated with fun stickers!</p>
+            </div>
+            <button onclick="showCertificate(); closeModals();" class="w-full bg-gradient-to-r from-pink-500 via-yellow-500 to-purple-500 text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition shadow-lg">
+                Decorate & Print Certificate! 🎓✨
+            </button>
+        </div>
+    </div>
+
+    <!-- HIGH QUALITY PRINTABLE STICKER CERTIFICATE MODAL -->
+    <div id="cert-modal" class="hidden fixed inset-0 bg-stone-900/90 z-50 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl p-4 md:p-8 shadow-2xl relative min-h-[700px] no-print mb-8 text-stone-800">
+            <h3 id="cert-title-decor" class="text-2xl font-bold text-white bg-pink-600 text-center py-2 rounded-xl mb-4 shadow-md">
+                🎨 Decorate Your Reading Certificate & Print it!
+            </h3>
+            <p class="text-center text-pink-700 text-sm mb-6 bg-pink-100 p-2.5 rounded-lg max-w-lg mx-auto leading-relaxed">
+                👉 Click on any sticker to add it! Drag it to position it on the certificate.<br>
+                <b>Double-click (or double-tap) a sticker on the certificate to delete it!</b>
+            </p>
+        </div>
+
+        <!-- The printable certificate layout box -->
+        <div class="max-w-3xl mx-auto bg-[#fffdf5] border-[16px] border-double border-yellow-500 p-8 md:p-16 relative min-h-[550px] shadow-lg rounded-md text-stone-800" id="cert-container-box">
+
+            <!-- Beautiful Gold Border Decorators -->
+            <div class="absolute top-4 left-4 text-3xl select-none text-yellow-500">✨</div>
+            <div class="absolute top-4 right-4 text-3xl select-none text-yellow-500">✨</div>
+            <div class="absolute bottom-4 left-4 text-3xl select-none text-yellow-500">✨</div>
+            <div class="absolute bottom-4 right-4 text-3xl select-none text-yellow-500">✨</div>
+
+            <!-- Header and Achievement badge -->
+            <div class="text-center relative z-10">
+                <div class="text-5xl md:text-6xl mb-4 select-none">👑🏆🎓</div>
+                <h1 class="text-4xl md:text-5xl font-serif font-bold text-yellow-600 mb-4 tracking-wide uppercase">
+                    Certificate of Achievement
+                </h1>
+                <p class="text-lg md:text-xl font-semibold italic text-pink-500 mb-6">"Today a reader, tomorrow a leader!"</p>
+
+                <p class="text-xl md:text-2xl text-gray-700 mb-4">This certifies that the amazing</p>
+
+                <!-- Dynamic display of Child's Name -->
+                <h2 id="cert-child-name" class="text-4xl md:text-5xl font-extrabold text-purple-600 font-sans tracking-wide border-b-4 border-dashed border-purple-200 pb-3 max-w-lg mx-auto select-none">
+                    Student Name
+                </h2>
+
+                <p class="text-lg md:text-xl text-gray-700 mt-6 leading-relaxed">
+                    has successfully completed a magnificent month of daily reading!<br>
+                    They are officially awarded the grand monthly reward of:
+                </p>
+
+                <!-- Reward highlights within certificate -->
+                <div class="mt-4 bg-yellow-100/50 inline-block px-8 py-3 rounded-full border border-yellow-300 select-none max-w-full">
+                    <span id="cert-reward-voucher" class="text-lg md:text-xl font-extrabold text-yellow-700 break-words">🍭 Custom Grand Reward! 🍬</span>
+                </div>
+
+                <div class="mt-8 flex justify-around items-center border-t border-yellow-200 pt-8 text-sm text-gray-500">
+                    <div>
+                        <div class="font-bold text-gray-700">Awarded on:</div>
+                        <div id="cert-date-placeholder" class="italic">Date of completion</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-gray-700">Verified by:</div>
+                        <div class="font-serif italic text-pink-600 text-lg">Parent Approval ✅</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Absolute sticker canvas (Container for added draggable elements) -->
+            <div id="sticker-canvas" class="absolute inset-0 overflow-hidden pointer-events-none z-20"></div>
+        </div>
+
+        <!-- Controls & Custom stickers (Kept hidden during prints) -->
+        <div class="max-w-3xl mx-auto mt-6 flex flex-col md:flex-row items-center justify-between gap-4 no-print bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20">
+            <!-- Stickers palette -->
+            <div class="flex flex-wrap gap-2.5 justify-center">
+                <span class="text-white text-sm font-semibold mr-2 self-center">Stickers:</span>
+                <button onclick="addSticker('🎀')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🎀</button>
+                <button onclick="addSticker('🦄')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🦄</button>
+                <button onclick="addSticker('🌟')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🌟</button>
+                <button onclick="addSticker('🍭')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🍭</button>
+                <button onclick="addSticker('🍦')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🍦</button>
+                <button onclick="addSticker('👑')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">👑</button>
+                <button onclick="addSticker('🧸')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🧸</button>
+                <button onclick="addSticker('🌸')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🌸</button>
+                <button onclick="addSticker('🚀')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🚀</button>
+                <button onclick="addSticker('🦖')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🦖</button>
+                <button onclick="addSticker('⚽')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">⚽</button>
+                <button onclick="addSticker('🦁')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">🦁</button>
+                <button onclick="addSticker('👾')" class="text-3xl hover:scale-125 transition-transform bg-white/20 hover:bg-white/40 p-2 rounded-lg">👾</button>
+            </div>
+
+            <!-- Certificate Action buttons -->
+            <div class="flex gap-2">
+                <button onclick="printCertificate()" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition flex items-center gap-1.5 shadow-md">
+                    🖨️ Print Now
+                </button>
+                <button onclick="closeCert()" class="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-3 rounded-xl transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════
+        // STORAGE SHIM — localStorage-backed cloud storage mock
+        // Global keys (leaderboard, accounts, messages) use __g: prefix.
+        // User data keys are stored directly.
+        // ═══════════════════════════════════════════════════════
+        window.storage = {
+            _gk: function(key) { return '__g:' + key; },
+            async get(key, global) {
+                const sk = global ? '__g:' + key : key;
+                const val = localStorage.getItem(sk);
+                if (val === null) throw new Error('Not found: ' + sk);
+                return { value: val };
+            },
+            async set(key, value, global) {
+                const sk = global ? '__g:' + key : key;
+                localStorage.setItem(sk, value);
+            },
+            async list(prefix, global) {
+                const sp = global ? '__g:' + prefix : prefix;
+                const keys = Object.keys(localStorage)
+                    .filter(k => k.startsWith(sp))
+                    .map(k => global ? k.slice(4) : k); // strip '__g:' so callers use original key
+                return { keys };
+            },
+            async delete(key, global) {
+                const sk = global ? '__g:' + key : key;
+                localStorage.removeItem(sk);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════
+        // ACCOUNT SYSTEM — email only, no password
+        // ═══════════════════════════════════════════════════════
+        let currentUser = null;
+
+        function accountKey(email) {
+            return 'acct:' + email.toLowerCase().trim().replace(/[^a-z0-9@._-]/g, '_');
+        }
+
+        function dataKey(email, key) {
+            return 'data:' + email.toLowerCase().trim().replace(/[^a-z0-9@._-]/g, '_') + ':' + key;
+        }
+
+        function switchAccountTab(tab) { /* unused */ }
+
+        async function doSignup() { /* unused */ }
+
+        async function doLogin() {
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const msgEl = document.getElementById('login-msg');
+            msgEl.classList.add('hidden');
+
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                msgEl.innerText = 'Please enter a valid email address.';
+                msgEl.classList.remove('hidden'); return;
+            }
+
+            // Create account record if it doesn't exist yet
+            const key = accountKey(email);
+            try {
+                await window.storage.get(key, true);
+            } catch(e) {
+                // New user — create their record
+                await window.storage.set(key, JSON.stringify({ email, created: Date.now() }), true);
+            }
+
+            await loginUser(email);
+        }
+
+        async function loginUser(email) {
+            currentUser = { email };
+            isAdmin = false; // never carry admin status across logins
+            localStorage.setItem('__lastEmail', email);
+            document.getElementById('account-overlay').classList.add('hidden');
+            document.getElementById('account-badge').classList.remove('hidden');
+            // Rebuild the badge (a prior admin session replaces this inner markup with the crown)
+            document.getElementById('account-badge-text').innerHTML = '👤 <span id="account-email-display" class="max-w-[60px] truncate hidden sm:inline"></span>';
+            document.getElementById('account-email-display').innerText = email;
+            document.getElementById('login-btn').classList.add('hidden');
+            // Update sidebar
+            document.getElementById('sb-logged-in').classList.remove('hidden');
+            document.getElementById('sb-logged-out').classList.add('hidden');
+            document.getElementById('sb-email').innerText = email;
+            document.getElementById('sb-lb-btn').classList.remove('hidden');
+            // Suggest/feedback available to every logged-in user (hidden once they enter admin mode)
+            document.getElementById('sb-feedback-btn').classList.remove('hidden');
+            // The "Admin Login" entry only appears for the admin email
+            document.getElementById('sb-admin-btn').classList.toggle('hidden', email !== ADMIN_EMAIL);
+            // Every logged-in user gets an inbox to read replies from the admin
+            document.getElementById('sb-inbox-btn').classList.remove('hidden');
+            updateInboxBtnLabel();
+            await bootApp();
+        }
+
+        function openLoginOverlay() {
+            document.getElementById('account-overlay').classList.remove('hidden');
+        }
+
+        function continueAsGuest() {
+            currentUser = null;
+            isAdmin = false;
+            document.getElementById('account-overlay').classList.add('hidden');
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('sb-logged-in').classList.add('hidden');
+            document.getElementById('sb-logged-out').classList.remove('hidden');
+            // Guests can't message or appear on the leaderboard
+            document.getElementById('sb-inbox-btn').classList.add('hidden');
+            document.getElementById('sb-lb-btn').classList.add('hidden');
+            document.getElementById('sb-stats-btn').classList.add('hidden');
+            bootApp();
+        }
+
+        function showAccountMenu() { toggleSidebar(); }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            const bd = document.getElementById('sidebar-backdrop');
+            const isOpen = !sb.classList.contains('-translate-x-full');
+            if (isOpen) { closeSidebar(); } else {
+                sb.classList.remove('-translate-x-full');
+                bd.classList.remove('hidden');
+            }
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('sidebar-backdrop').classList.add('hidden');
+        }
+
+        function doLogout() {
+            isAdmin = false;
+            currentUser = null;
+            localStorage.removeItem('__lastEmail');
+            closeSidebar();
+            document.getElementById('account-badge').classList.add('hidden');
+            // Clear any admin crown badge so it doesn't linger into the next session
+            document.getElementById('account-badge-text').innerHTML = '👤 <span id="account-email-display" class="max-w-[60px] truncate hidden sm:inline"></span>';
+            document.getElementById('account-overlay').classList.remove('hidden');
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('sb-logged-in').classList.add('hidden');
+            document.getElementById('sb-logged-out').classList.remove('hidden');
+            document.getElementById('sb-lb-btn').classList.add('hidden');
+            document.getElementById('sb-inbox-btn').classList.add('hidden');
+            document.getElementById('sb-stats-btn').classList.add('hidden');
+            document.getElementById('sb-admin-btn').classList.add('hidden');
+            document.getElementById('sb-feedback-btn').classList.remove('hidden');
+            document.getElementById('login-email').value = '';
+            // Clear the previous user's visual state so the login screen is neutral
+            isDarkMode = false; document.body.classList.remove('dark-mode');
+            applyLanguage('en');
+        }
+
+        // ── Storage helpers: fully isolated per account ──
+        // When logged in: cloud storage only (keyed by email)
+        // When guest: localStorage only (keyed by "guest:")
+        function localKey(key) {
+            // Namespace localStorage by email so accounts never bleed into each other
+            const prefix = currentUser ? 'u:' + currentUser.email + ':' : 'guest:';
+            return prefix + key;
+        }
+
+        async function storeItem(key, value) {
+            if (currentUser) {
+                try { await window.storage.set(dataKey(currentUser.email, key), value); } catch(e) {}
+            }
+            localStorage.setItem(localKey(key), value);
+        }
+
+        async function loadItem(key) {
+            if (currentUser) {
+                try {
+                    const res = await window.storage.get(dataKey(currentUser.email, key));
+                    if (res && res.value !== undefined) return res.value;
+                } catch(e) {}
+                // Fall back to namespaced localStorage (e.g. set while offline)
+                return localStorage.getItem(localKey(key));
+            }
+            return localStorage.getItem(localKey(key));
+        }
+
+        // Sync helper for places that need the parent code synchronously
+        // (reads from namespaced localStorage which is always written alongside cloud)
+        function loadItemSync(key) {
+            return localStorage.getItem(localKey(key));
+        }
+
+        async function clearAllData() {
+            // Only clear keys belonging to this account/guest — not other accounts
+            const prefix = currentUser ? 'u:' + currentUser.email + ':' : 'guest:';
+            Object.keys(localStorage).filter(k => k.startsWith(prefix)).forEach(k => localStorage.removeItem(k));
+            if (currentUser) {
+                await storeItem('childName', '');
+                await storeItem('parentCode', '');
+                await storeItem('hodayaMonth', '1');
+            }
+        }
+
+        // ── Reset all in-memory state + visible UI so a fresh account starts clean ──
+        // (critical when one user logs out and a different user logs in)
+        function resetAppState() {
+            progress = Array(TOTAL_DAYS).fill(false);
+            childName = '';
+            currentMonth = 1;
+            childAvatar = '🧒';
+            currentStreak = 0; bestStreak = 0; freezeShields = 0;
+            streakDates = []; readingLog = [];
+            freezeEarnInterval = 7;
+            systemConfig = {
+                childName: '', parentCode: '',
+                weeklyPrize: appCfg.defaultWeekly,
+                monthlyPrize: appCfg.defaultMonthly,
+                appTheme: 'pink',
+                audioEnabled: true,
+                rewardInterval: appCfg.defaultInterval
+            };
+            // Visual reset
+            isDarkMode = false; document.body.classList.remove('dark-mode');
+            lang = 'en'; isRTL = false;
+            document.documentElement.dir = 'ltr'; document.documentElement.lang = 'en';
+            weeksContainer.innerHTML = '';
+            document.getElementById('avatar-streak-bar').classList.add('hidden');
+            document.getElementById('avatar-picker-panel').classList.add('hidden');
+            applyTheme('pink');
+            updateAudioButtonUI();
+        }
+
+        // ── Boot the app (replaces window.onload logic) ──
+        async function bootApp() {
+            resetAppState();
+            applyAppConfig();
+
+            const parentCode = await loadItem('parentCode');
+            const storedName = await loadItem('childName');
+
+            if (!parentCode || !storedName) {
+                applyLanguage('en');
+                modalOverlay.classList.remove('hidden');
+                setupModal.classList.remove('hidden');
+            } else {
+                childName = storedName;
+                currentMonth = parseInt(await loadItem('hodayaMonth')) || 1;
+                const storedProgress = await loadItem(`hodayaProgress_M${currentMonth}`);
+                progress = storedProgress ? JSON.parse(storedProgress) : Array(TOTAL_DAYS).fill(false);
+
+                systemConfig.weeklyPrize = await loadItem('weeklyPrize') || appCfg.defaultWeekly;
+                systemConfig.monthlyPrize = await loadItem('monthlyPrize') || appCfg.defaultMonthly;
+                systemConfig.appTheme = await loadItem('appTheme') || 'pink';
+                const audioVal = await loadItem('audioEnabled');
+                systemConfig.audioEnabled = audioVal !== 'false';
+                systemConfig.rewardInterval = parseInt(await loadItem('rewardInterval')) || appCfg.defaultInterval;
+                freezeEarnInterval = parseInt(await loadItem('freezeEarnInterval')) || 7;
+
+                // Avatar
+                childAvatar = await loadItem('childAvatar') || '🧒';
+                document.getElementById('avatar-display').innerText = childAvatar;
+                document.getElementById('child-name-display').innerText = childName;
+                document.getElementById('avatar-streak-bar').classList.remove('hidden');
+
+                // Streak data
+                const storedBest = await loadItem('bestStreak');
+                bestStreak = parseInt(storedBest) || 0;
+                const storedFreezes = await loadItem('freezeShields');
+                freezeShields = parseInt(storedFreezes) || 0;
+                const storedDates = await loadItem('streakDates');
+                streakDates = storedDates ? JSON.parse(storedDates) : [];
+                updateStreakUI();
+                if (currentStreak > bestStreak) {
+                    bestStreak = currentStreak;
+                    storeItem('bestStreak', bestStreak.toString());
+                }
+
+                // Reading log
+                const storedLog = await loadItem('readingLog');
+                readingLog = storedLog ? JSON.parse(storedLog) : [];
+
+                // Dark mode
+                const darkVal = await loadItem('darkMode');
+                if (darkVal === 'true') { isDarkMode = true; document.body.classList.add('dark-mode'); }
+
+                // Stats button (logged-in users only)
+                if (currentUser) {
+                    document.getElementById('sb-stats-btn').classList.remove('hidden');
+                }
+
+                applyTheme(systemConfig.appTheme);
+                updateAudioButtonUI();
+                // Language last — applyLanguage re-renders the tracker, name UI, quote & config
+                const rtlVal = await loadItem('rtlMode');
+                applyLanguage(rtlVal === 'true' ? 'he' : 'en');
+            }
+        }
+
+        // Web Audio Synthesizer for reward feedback chimes (no external files required)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            try {
+                if (!systemConfig.audioEnabled) return;
+
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.12);
+                } else if (type === 'unlock') {
+                    const now = audioCtx.currentTime;
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        g.gain.setValueAtTime(0.2, now + idx * 0.08);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.3);
+                        o.start(now + idx * 0.08);
+                        o.stop(now + idx * 0.08 + 0.35);
+                    });
+                } else if (type === 'success') {
+                    const now = audioCtx.currentTime;
+                    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+                    notes.forEach((freq, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(freq, now + idx * 0.06);
+                        g.gain.setValueAtTime(0.15, now + idx * 0.06);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.06 + 0.45);
+                        o.start(now + idx * 0.06);
+                        o.stop(now + idx * 0.06 + 0.5);
+                    });
+                } else if (type === 'remove') {
+                    const now = audioCtx.currentTime;
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(350, now);
+                    osc.frequency.linearRampToValueAtTime(120, now + 0.35);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.37);
+                }
+            } catch(e) {
+                console.log("Audio play suppressed or unsupported.");
+            }
+        }
+
+        const TOTAL_DAYS = 24;
+
+        let systemConfig = {
+            childName: '',
+            parentCode: '',
+            weeklyPrize: '3 Shekels (3₪) for the Kiosk or a special prize!',
+            monthlyPrize: '7 Shekels (7₪) & Sparkly Certificate!',
+            appTheme: 'pink',
+            audioEnabled: true,
+            rewardInterval: 6
+        };
+
+        let currentMonth = 1;
+        let childName = '';
+        let progress = Array(TOTAL_DAYS).fill(false);
+        let pendingDay = null;
+        let pendingNextMonthReq = false;
+        let isRemovalRequest = false;
+
+        const weeksContainer = document.getElementById('weeks-container');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const authModal = document.getElementById('auth-modal');
+        const authDesc = document.getElementById('auth-desc');
+        const setupModal = document.getElementById('setup-modal');
+        const settingsModal = document.getElementById('settings-modal');
+        const weekCelebrationModal = document.getElementById('week-celebration-modal');
+        const monthCelebrationModal = document.getElementById('month-celebration-modal');
+        const resetConfirmModal = document.getElementById('reset-confirm-modal');
+
+        // ── Auto-restore last session on page load ──
+        window.onload = async () => {
+            // Load admin-controlled app config first so title/announcement/defaults are ready
+            await loadAppConfig();
+            applyAppConfig();
+            renderRoadmap();
+
+            const lastEmail = localStorage.getItem('__lastEmail');
+            if (lastEmail) {
+                // Auto sign back in with the last used email (no password needed)
+                try {
+                    await loginUser(lastEmail);
+                    return;
+                } catch(e) { /* fall through to show login */ }
+            }
+            // No saved session — show the account overlay
+            document.getElementById('account-overlay').classList.remove('hidden');
+        };
+
+        // ═══════════════════════════════════════════════════════
+        // I18N — English / Hebrew
+        // ═══════════════════════════════════════════════════════
+        let lang = 'en';
+
+        // Static UI strings, translated by CSS selector (English captured on first run)
+        const STATIC_I18N = {
+            '#sb-menu-title': '📚 תפריט',
+            '#sb-stats-btn': '📊 הנתונים שלי',
+            '#sb-lb-btn': '🏆 טבלת מובילים',
+            'button[onclick*="openSettings"]': '⚙️ הגדרות',
+            'button[onclick*="openDonate"]': '💝 תמכו בנו',
+            '#sb-feedback-btn': '💬 שלחו הצעה',
+            'button[onclick*="openRoadmap"]': '🗺️ בקרוב',
+            '#avatar-hint': 'הקישו כדי להחליף דמות',
+            '#overall-progress-label': 'התקדמות חודשית כללית',
+            '#certificate-btn': '🎓 קבלו ועצבו את התעודה! ✨',
+            '#next-month-btn': '➡️ התחילו חודש חדש!',
+            '#streak-label': 'רצף',
+            '#login-btn span': 'כניסה',
+            '#sb-logged-out button': '🔑 כניסה'
+        };
+
+        // Templated strings used by the dynamically-rendered sections
+        const TPL = {
+            en: {
+                monthLog: '🌸 Month {n} Reading Log 📖',
+                week: 'Week {n}', milestone: 'Milestone Row {n}',
+                daysRange: '(Progress through Days {a} to {b} 📝)',
+                day: 'Day {n}', reward: 'Reward {n}', claimPrize: 'Claim Prize',
+                overallPct: '{p}% Completed ({c}/{t} Days)',
+                weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                grandTitle: '🏆 Grand Monthly Prize: {prize} 🥳',
+                monthlyDesc: "Complete all 24 days to print <strong>{name}'s</strong> personalized reading certificate and claim your reward!",
+                darkOn: '☀️ Light Mode', darkOff: '🌙 Dark Mode',
+                inboxAdmin: '📬 Inbox', inboxUser: '📬 My Messages'
+            },
+            he: {
+                monthLog: '🌸 יומן קריאה — חודש {n} 📖',
+                week: 'שבוע {n}', milestone: 'שורת יעד {n}',
+                daysRange: '(התקדמות בימים {a} עד {b} 📝)',
+                day: 'יום {n}', reward: 'פרס {n}', claimPrize: 'קבלת פרס',
+                overallPct: '{p}% הושלמו ({c}/{t} ימים)',
+                weekdays: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי'],
+                grandTitle: '🏆 פרס חודשי גדול: {prize} 🥳',
+                monthlyDesc: 'השלימו את כל 24 הימים כדי להדפיס תעודת קריאה אישית של <strong>{name}</strong> ולקבל את הפרס!',
+                darkOn: '☀️ מצב בהיר', darkOff: '🌙 מצב כהה',
+                inboxAdmin: '📬 תיבת הודעות', inboxUser: '📬 ההודעות שלי'
+            }
+        };
+
+        function tk(key, vars) {
+            let s = (TPL[lang] && TPL[lang][key] !== undefined) ? TPL[lang][key] : TPL.en[key];
+            if (Array.isArray(s)) return s;
+            if (vars) Object.keys(vars).forEach(k => { s = s.split('{' + k + '}').join(vars[k]); });
+            return s;
+        }
+
+        function darkLabel() { return isDarkMode ? tk('darkOn') : tk('darkOff'); }
+
+        function updateInboxBtnLabel() {
+            const b = document.getElementById('sb-inbox-btn');
+            if (b) b.innerText = isAdmin ? tk('inboxAdmin') : tk('inboxUser');
+        }
+
+        function translateStatics() {
+            for (const sel in STATIC_I18N) {
+                const el = document.querySelector(sel);
+                if (!el) continue;
+                if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.innerHTML.trim();
+                el.innerHTML = (lang === 'he') ? STATIC_I18N[sel] : el.dataset.i18nEn;
+            }
+        }
+
+        function applyLanguage(l) {
+            lang = (l === 'he') ? 'he' : 'en';
+            isRTL = (lang === 'he');
+            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+            document.documentElement.lang = isRTL ? 'he' : 'en';
+            const rtlBtn = document.getElementById('rtl-btn-desktop');
+            if (rtlBtn) rtlBtn.innerText = isRTL ? 'EN' : 'עב';
+            translateStatics();
+            const db = document.getElementById('sb-dark-btn');
+            if (db) db.innerText = darkLabel();
+            updateInboxBtnLabel();
+            renderTracker();
+            if (childName) updateChildNameUI();
+            showDailyQuote();
+            applyAppConfig();
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // APP-WIDE CONFIG (admin-controlled)
+        // ═══════════════════════════════════════════════════════
+        const CFG_DEFAULTS = {
+            appTitle: 'Reading Adventure',
+            appSubtitle: '"Read every day to earn prizes & Kiosk rewards!"',
+            defaultWeekly: '3 Shekels (3₪) for the Kiosk or a special prize!',
+            defaultMonthly: '7 Shekels (7₪) & Sparkly Certificate!',
+            defaultInterval: 6,
+            announcement: '',
+            roadmap: [
+                { emoji: '🎧', title: 'Audiobook Mode', desc: 'Listen to stories read aloud while words highlight along the way.' },
+                { emoji: '👨‍👩‍👧', title: 'Multiple Kids', desc: 'Track several children in one family account, each with their own chart.' },
+                { emoji: '🎯', title: 'Custom Reading Goals', desc: 'Set a pages-per-week goal and watch a progress ring fill up.' },
+                { emoji: '🏅', title: 'Achievement Badges', desc: 'Unlock collectible badges for milestones like "100 pages" or "30-day streak".' },
+                { emoji: '🌍', title: 'More Languages', desc: 'Full translations beyond English & Hebrew — Spanish, French and more.' },
+                { emoji: '📆', title: 'Reading Reminders', desc: 'A gentle daily nudge so reading time never gets forgotten.' }
+            ]
+        };
+        let appCfg = Object.assign({}, CFG_DEFAULTS);
+
+        async function loadAppConfig() {
+            try {
+                const r = await window.storage.get('appConfig', true);
+                if (r && r.value) {
+                    const c = JSON.parse(r.value);
+                    appCfg = Object.assign({}, CFG_DEFAULTS, c);
+                    if (!Array.isArray(appCfg.roadmap) || !appCfg.roadmap.length) appCfg.roadmap = CFG_DEFAULTS.roadmap;
+                }
+            } catch (e) {}
+        }
+
+        function applyAppConfig() {
+            const titleEl = document.getElementById('app-title-text');
+            if (titleEl) titleEl.innerText = appCfg.appTitle;
+            const subEl = document.getElementById('app-subtitle');
+            if (subEl) subEl.innerText = appCfg.appSubtitle;
+            const banner = document.getElementById('announcement-banner');
+            if (banner) {
+                if (appCfg.announcement && appCfg.announcement.trim()) {
+                    banner.innerText = '📢 ' + appCfg.announcement.trim();
+                    banner.classList.remove('hidden');
+                } else {
+                    banner.classList.add('hidden');
+                }
+            }
+        }
+
+        function renderRoadmap() {
+            const list = document.getElementById('roadmap-list');
+            if (!list) return;
+            list.innerHTML = appCfg.roadmap.map(item => `
+                <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex gap-3 items-start">
+                    <span class="text-2xl">${item.emoji || '✨'}</span>
+                    <div>
+                        <p class="font-bold text-teal-700 text-sm">${item.title || ''}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">${item.desc || ''}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAdminControl() {
+            if (!isAdmin) return;
+            document.getElementById('inbox-modal').classList.add('hidden');
+            document.getElementById('admin-control-modal').classList.remove('hidden');
+            document.getElementById('ac-msg').classList.add('hidden');
+            document.getElementById('ac-title').value = appCfg.appTitle;
+            document.getElementById('ac-subtitle').value = appCfg.appSubtitle;
+            document.getElementById('ac-announcement').value = appCfg.announcement || '';
+            document.getElementById('ac-weekly').value = appCfg.defaultWeekly;
+            document.getElementById('ac-monthly').value = appCfg.defaultMonthly;
+            document.getElementById('ac-interval').value = String(appCfg.defaultInterval);
+            document.getElementById('ac-roadmap').value = appCfg.roadmap
+                .map(i => `${i.emoji} | ${i.title} | ${i.desc}`).join('\n');
+        }
+
+        async function saveAdminControl() {
+            if (!isAdmin) return;
+            const roadmap = document.getElementById('ac-roadmap').value
+                .split('\n').map(l => l.trim()).filter(Boolean)
+                .map(line => {
+                    const parts = line.split('|').map(p => p.trim());
+                    return { emoji: parts[0] || '✨', title: parts[1] || '', desc: parts[2] || '' };
+                });
+            appCfg = {
+                appTitle: document.getElementById('ac-title').value.trim() || CFG_DEFAULTS.appTitle,
+                appSubtitle: document.getElementById('ac-subtitle').value.trim() || CFG_DEFAULTS.appSubtitle,
+                announcement: document.getElementById('ac-announcement').value.trim(),
+                defaultWeekly: document.getElementById('ac-weekly').value.trim() || CFG_DEFAULTS.defaultWeekly,
+                defaultMonthly: document.getElementById('ac-monthly').value.trim() || CFG_DEFAULTS.defaultMonthly,
+                defaultInterval: parseInt(document.getElementById('ac-interval').value) || 6,
+                roadmap: roadmap.length ? roadmap : CFG_DEFAULTS.roadmap
+            };
+            try { await window.storage.set('appConfig', JSON.stringify(appCfg), true); } catch (e) {}
+            applyAppConfig();
+            renderRoadmap();
+            const msg = document.getElementById('ac-msg');
+            msg.innerText = '✅ Saved! Applied across the app.';
+            msg.classList.remove('hidden');
+            playSound('success');
+        }
+
+        function applyTheme(themeName) {
+            document.body.classList.remove('theme-pink', 'theme-gold', 'theme-purple', 'theme-turquoise', 'theme-space', 'theme-dino', 'theme-soccer');
+            document.body.classList.add(`theme-${themeName}`);
+
+            const themeEmojis = {
+                pink: '🎀🦄',
+                gold: '🌟✨',
+                purple: '🔮👾',
+                turquoise: '🌊🐬',
+                space: '🚀🌌',
+                dino: '🦖🌴',
+                soccer: '⚽🏆'
+            };
+            document.getElementById('app-title-decor').innerText = themeEmojis[themeName] || '✨📚';
+        }
+
+        function toggleAudio() {
+            systemConfig.audioEnabled = !systemConfig.audioEnabled;
+            storeItem('audioEnabled', systemConfig.audioEnabled.toString());
+            updateAudioButtonUI();
+            if (systemConfig.audioEnabled) {
+                playSound('click');
+            }
+        }
+
+        function updateAudioButtonUI() {
+            const btn = document.getElementById('audio-toggle-btn');
+            if (systemConfig.audioEnabled) {
+                if (btn) { btn.innerHTML = '🔊'; btn.className = 'text-xs font-bold theme-badge-dynamic px-3 py-1.5 rounded-full transition flex items-center gap-1 shadow-sm'; }
+            } else {
+                if (btn) { btn.innerHTML = '🔇'; btn.className = 'text-xs font-bold bg-gray-200 text-gray-600 px-3 py-1.5 rounded-full transition flex items-center gap-1 shadow-sm'; }
+            }
+        }
+
+        function updateChildNameUI() {
+            if (!childName) return;
+
+            document.title = `${childName}'s Reading Adventure 📚✨`;
+
+            document.getElementById('monthly-prize-title').innerText = tk('grandTitle', { prize: systemConfig.monthlyPrize });
+            document.getElementById('monthly-reward-desc').innerHTML = tk('monthlyDesc', { name: childName });
+
+            document.getElementById('week-celebration-name').innerText = `${childName.toUpperCase()} REWARD UNLOCKED! 🔥`;
+            document.getElementById('week-celebration-gift-for').innerText = `🎉 ${childName} gets:`;
+            document.getElementById('month-celebration-earned-for').innerText = `🎉 ${childName} has earned:`;
+
+            document.getElementById('cert-title-decor').innerHTML = `🎨 Decorate <strong>${childName}'s</strong> Reading Certificate & Print it!`;
+            document.getElementById('cert-child-name').innerText = childName;
+        }
+
+        function renderTracker() {
+            document.getElementById('month-indicator').innerHTML = tk('monthLog', { n: currentMonth });
+            document.getElementById('cert-date-placeholder').innerText = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            weeksContainer.innerHTML = '';
+
+            const interval = systemConfig.rewardInterval;
+            const numBlocks = Math.ceil(TOTAL_DAYS / interval);
+
+            for (let blockIdx = 0; blockIdx < numBlocks; blockIdx++) {
+                let isBlockCompleted = true;
+                const startDay = blockIdx * interval;
+                const endDay = Math.min(startDay + interval, TOTAL_DAYS);
+                const blockDaysLength = endDay - startDay;
+
+                for (let d = startDay; d < endDay; d++) {
+                    if (!progress[d]) {
+                        isBlockCompleted = false;
+                        break;
+                    }
+                }
+
+                const weekRow = document.createElement('div');
+                weekRow.className = `p-4 md:p-6 rounded-2xl border-2 transition-all duration-300 ${
+                    isBlockCompleted
+                    ? 'bg-amber-50/70 border-yellow-300 glowing-box'
+                    : 'theme-bg-dynamic theme-border-dynamic'
+                }`;
+
+                const blockTitle = interval === 6 ? tk('week', { n: blockIdx + 1 }) : tk('milestone', { n: blockIdx + 1 });
+                const weekHeader = document.createElement('div');
+                weekHeader.className = "flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2 border-b border-stone-100/20 pb-2";
+                weekHeader.innerHTML = `
+                    <div>
+                        <span class="text-xl font-bold theme-text-dynamic">${blockTitle}</span>
+                        <span class="text-xs text-purple-500 ml-2">${tk('daysRange', { a: startDay + 1, b: endDay })}</span>
+                    </div>
+                `;
+                weekRow.appendChild(weekHeader);
+
+                const gridDiv = document.createElement('div');
+                gridDiv.className = "grid dynamic-grid gap-3 text-center";
+                gridDiv.dataset.cols = blockDaysLength + 1;
+
+                applyResponsiveGridColumns(gridDiv, blockDaysLength + 1);
+
+                const weekdays = tk('weekdays');
+
+                for (let d = startDay; d < endDay; d++) {
+                    const isCompleted = progress[d];
+                    const dayLabel = weekdays[d % weekdays.length];
+
+                    const dayButton = document.createElement('div');
+                    dayButton.className = `p-3 rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
+                        isCompleted
+                        ? 'checked-day text-white'
+                        : 'day-button-unlocked theme-text-color'
+                    }`;
+
+                    dayButton.innerHTML = `
+                        <span class="text-xs font-bold ${isCompleted ? 'text-white/80' : 'theme-text-dynamic'}">${dayLabel}</span>
+                        <span class="text-xs font-semibold mt-0.5 ${isCompleted ? 'text-white/80' : 'theme-subtext-dynamic'}">${tk('day', { n: d + 1 })}</span>
+                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center mt-2 ${
+                            isCompleted ? 'bg-white border-white/40 text-pink-600' : 'bg-stone-50/50 border-stone-100'
+                        }">
+                            ${isCompleted ? '⭐' : ''}
+                        </div>
+                    `;
+
+                    dayButton.onclick = () => {
+                        if (isCompleted) {
+                            openRemovalAuth(d);
+                        } else {
+                            openAuth(d);
+                        }
+                    };
+
+                    gridDiv.appendChild(dayButton);
+                }
+
+                const weeklyRewardBox = document.createElement('div');
+                weeklyRewardBox.className = `p-3 rounded-xl border-2 flex flex-col items-center justify-center transition-all duration-500 cursor-pointer ${
+                    isBlockCompleted
+                    ? 'bg-gradient-to-br from-yellow-300 to-amber-500 border-yellow-500 text-yellow-950 scale-105 shadow-md font-bold'
+                    : 'bg-stone-50/50 border-stone-200 opacity-60 theme-text-color'
+                }`;
+                weeklyRewardBox.innerHTML = `
+                    <span class="text-[10px] uppercase font-extrabold tracking-wider ${isBlockCompleted ? 'text-yellow-900' : 'theme-subtext-dynamic'}">${tk('reward', { n: blockIdx + 1 })}</span>
+                    <span class="text-3xl mt-1 select-none animate-pulse">${isBlockCompleted ? '🎁' : '🔒'}</span>
+                    <span class="text-[10px] font-bold mt-1 text-center leading-tight">${tk('claimPrize')}</span>
+                `;
+                weeklyRewardBox.onclick = () => showWeeklyRewardDetails(blockIdx, isBlockCompleted);
+
+                gridDiv.appendChild(weeklyRewardBox);
+
+                weekRow.appendChild(gridDiv);
+                weeksContainer.appendChild(weekRow);
+            }
+
+            updateProgressMetrics();
+        }
+
+        function applyResponsiveGridColumns(element, colCount) {
+            if (window.innerWidth > 768) {
+                element.style.gridTemplateColumns = `repeat(${colCount}, minmax(0, 1fr))`;
+            } else {
+                element.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            const grids = document.querySelectorAll('.dynamic-grid');
+            grids.forEach(grid => {
+                const totalCols = parseInt(grid.dataset.cols) || 7;
+                applyResponsiveGridColumns(grid, totalCols);
+            });
+        });
+
+        function updateProgressMetrics() {
+            const completedCount = progress.filter(p => p).length;
+            const overallPct = Math.round((completedCount / TOTAL_DAYS) * 100);
+
+            document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
+            document.getElementById('overall-percentage').innerText = tk('overallPct', { p: overallPct, c: completedCount, t: TOTAL_DAYS });
+
+            const certBtn = document.getElementById('certificate-btn');
+            const nextMonthBtn = document.getElementById('next-month-btn');
+
+            if (completedCount === TOTAL_DAYS) {
+                certBtn.classList.remove('hidden');
+                nextMonthBtn.classList.remove('hidden');
+                document.getElementById('monthly-reward-card').classList.add('glowing-box');
+            } else {
+                certBtn.classList.add('hidden');
+                nextMonthBtn.classList.add('hidden');
+                document.getElementById('monthly-reward-card').classList.remove('glowing-box');
+            }
+
+            // Publish score to leaderboard (only if logged in and has a child name)
+            publishScore(completedCount);
+            // Update streak display
+            updateStreakUI();
+        }
+
+        async function publishScore(completedCount) {
+            if (!currentUser || !childName) return;
+            try {
+                const lbKey = 'lb:' + currentUser.email.toLowerCase().replace(/[^a-z0-9@._-]/g, '_');
+                const entry = { name: childName, avatar: childAvatar || '🧒', days: completedCount, month: currentMonth, updated: Date.now() };
+                await window.storage.set(lbKey, JSON.stringify(entry), true);
+            } catch(e) {}
+        }
+
+        const ADMIN_CODE = 'rappAdmin123';
+        const ADMIN_EMAIL = 'gershyrapp@gmail.com';
+        let isAdmin = false;
+
+        function openAdminLogin() {
+            closeSidebar();
+            document.getElementById('admin-code-input').value = '';
+            document.getElementById('admin-code-msg').classList.add('hidden');
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+        }
+
+        function verifyAdminCode() {
+            const code = document.getElementById('admin-code-input').value;
+            const msgEl = document.getElementById('admin-code-msg');
+            if (code === ADMIN_CODE) {
+                isAdmin = true;
+                closeModals();
+                document.getElementById('sb-inbox-btn').classList.remove('hidden');
+                document.getElementById('sb-feedback-btn').classList.add('hidden');
+                updateInboxBtnLabel();
+                document.getElementById('account-badge-text').innerHTML = '👑 <span class="hidden sm:inline">Admin</span>';
+            } else {
+                msgEl.innerText = 'Wrong code. Try again!';
+                msgEl.classList.remove('hidden');
+                document.getElementById('admin-code-input').value = '';
+            }
+        }
+
+        // ═══════════════════════════
+        // DARK MODE + RTL
+        // ═══════════════════════════
+        let isDarkMode = false;
+        let isRTL = false;
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            const btn = document.getElementById('sb-dark-btn');
+            if (btn) btn.innerText = darkLabel();
+            storeItem('darkMode', isDarkMode.toString());
+        }
+
+        function toggleRTL() {
+            applyLanguage(isRTL ? 'en' : 'he');
+            storeItem('rtlMode', isRTL.toString());
+        }
+
+        // ═══════════════════════════
+        // MOTIVATIONAL QUOTES
+        // ═══════════════════════════
+        const QUOTES = [
+            '"A reader lives a thousand lives." — George R.R. Martin',
+            '"Reading is dreaming with open eyes." 📖',
+            '"The more that you read, the more things you will know." — Dr. Seuss',
+            '"Books are a uniquely portable magic." — Stephen King',
+            '"Today a reader, tomorrow a leader." 🌟',
+            '"Reading gives us somewhere to go when we have to stay where we are." ✨',
+            '"A book is a gift you can open again and again." 🎁',
+            '"Reading is to the mind what exercise is to the body." 💪',
+            '"Once you learn to read, you will be forever free." — Frederick Douglass',
+            '"The world belongs to those who read." 🌍',
+        ];
+
+        function showDailyQuote() {
+            const day = new Date().getDay();
+            const q = QUOTES[day % QUOTES.length];
+            const el = document.getElementById('quote-bar');
+            if (el) el.innerText = q;
+        }
+
+        // ═══════════════════════════
+        // CONFETTI
+        // ═══════════════════════════
+        function launchConfetti(count = 80) {
+            const colors = ['#f43f5e','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#fbbf24'];
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                el.style.width = (Math.random() * 10 + 6) + 'px';
+                el.style.height = (Math.random() * 10 + 6) + 'px';
+                el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                const dur = Math.random() * 2 + 2;
+                el.style.animationDuration = dur + 's';
+                el.style.animationDelay = Math.random() * 1.5 + 's';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), (dur + 2) * 1000);
+            }
+        }
+
+        // ═══════════════════════════
+        // AVATAR
+        // ═══════════════════════════
+        let childAvatar = '🧒';
+
+        function openAvatarPicker() {
+            const panel = document.getElementById('avatar-picker-panel');
+            panel.classList.toggle('hidden');
+            document.getElementById('avatar-input').value = childAvatar;
+        }
+
+        function closeAvatarPicker() {
+            document.getElementById('avatar-picker-panel').classList.add('hidden');
+        }
+
+        async function saveAvatar() {
+            const val = document.getElementById('avatar-input').value.trim();
+            if (!val) return;
+            childAvatar = val;
+            document.getElementById('avatar-display').innerText = childAvatar;
+            await storeItem('childAvatar', childAvatar);
+            // Update leaderboard with new avatar
+            const completedCount = progress.filter(p => p).length;
+            publishScore(completedCount);
+            closeAvatarPicker();
+        }
+
+        // ═══════════════════════════
+        // STREAKS + FREEZE SHIELDS
+        // ═══════════════════════════
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let freezeShields = 0;
+        let freezeEarnInterval = 7;
+        let streakDates = []; // ["YYYY-MM-DD", ...] one per real calendar day
+        let logStar = 0;
+
+        function computeStreak() {
+            // Streak is based on real calendar days, not just day slots.
+            // We track the last date a day was approved and the streak count.
+            // Each calendar day can only add 1 to the streak.
+            // This function recalculates from the streakDates array.
+            let streak = 0;
+            if (streakDates.length === 0) { currentStreak = 0; return; }
+
+            const sorted = [...new Set(streakDates)].sort();
+            // Count consecutive calendar days from the most recent backwards
+            streak = 1;
+            for (let i = sorted.length - 1; i > 0; i--) {
+                const a = new Date(sorted[i]);
+                const b = new Date(sorted[i - 1]);
+                const diff = (a - b) / (1000 * 60 * 60 * 24);
+                if (Math.round(diff) === 1) streak++;
+                else break;
+            }
+            currentStreak = streak;
+            // Earn 1 shield per freezeEarnInterval days of streak, max 3
+            const earned = Math.min(3, Math.floor(currentStreak / freezeEarnInterval));
+            if (earned > freezeShields) freezeShields = earned;
+        }
+
+        function todayStr() {
+            return new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+        }
+
+        function updateStreakUI() {
+            computeStreak();
+            document.getElementById('streak-count').innerText = currentStreak;
+            const shields = document.getElementById('freeze-shields');
+            shields.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const s = document.createElement('span');
+                s.innerText = '🛡️';
+                s.className = 'text-lg ' + (i < freezeShields ? 'opacity-100' : 'opacity-20');
+                shields.appendChild(s);
+            }
+        }
+
+        // ═══════════════════════════
+        // READING LOG
+        // ═══════════════════════════
+        let readingLog = []; // [{title, pages, stars, date}]
+
+        function setLogStar(n) {
+            logStar = n;
+            document.querySelectorAll('#log-stars-input .star-btn').forEach((el, i) => {
+                el.innerText = i < n ? '⭐' : '☆';
+            });
+        }
+
+        function openLogEntry() {
+            document.getElementById('log-entry-form').classList.remove('hidden');
+            document.getElementById('log-book-title').value = '';
+            document.getElementById('log-pages').value = '';
+            logStar = 0;
+            setLogStar(0);
+        }
+
+        async function saveLogEntry() {
+            const title = document.getElementById('log-book-title').value.trim();
+            const pages = parseInt(document.getElementById('log-pages').value) || 0;
+            if (!title) return;
+            const entry = { title, pages, stars: logStar, date: new Date().toLocaleDateString('en-GB') };
+            readingLog.unshift(entry);
+            await storeItem('readingLog', JSON.stringify(readingLog));
+            document.getElementById('log-entry-form').classList.add('hidden');
+            renderReadingLog();
+            renderStatsNumbers();
+        }
+
+        function renderReadingLog() {
+            const el = document.getElementById('reading-log-list');
+            if (!el) return;
+            if (!readingLog.length) {
+                el.innerHTML = '<p class="text-xs text-gray-400 text-center py-2">No books logged yet — add your first! 📚</p>';
+                return;
+            }
+            el.innerHTML = readingLog.map(e => `
+                <div class="bg-white border border-green-100 rounded-xl p-2 flex justify-between items-center gap-2">
+                    <div class="min-w-0">
+                        <p class="text-sm font-bold text-gray-700 truncate">${e.title}</p>
+                        <p class="text-xs text-gray-400">${e.pages ? e.pages + ' pages · ' : ''}${e.date}</p>
+                    </div>
+                    <span class="shrink-0 text-sm">${'⭐'.repeat(e.stars)}${'☆'.repeat(5 - e.stars)}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderStatsNumbers() {
+            const completed = progress.filter(p => p).length;
+            const weeks = [];
+            for (let w = 0; w < 4; w++) {
+                const start = w * 6, end = Math.min(start + 6, progress.length);
+                weeks.push(progress.slice(start, end).filter(p => p).length);
+            }
+            // Chart
+            const chartEl = document.getElementById('stats-chart');
+            if (chartEl) {
+                const max = Math.max(...weeks, 1);
+                chartEl.innerHTML = weeks.map((v, i) => `
+                    <div class="flex flex-col items-center gap-1 flex-1">
+                        <span class="text-xs font-bold text-blue-600">${v}</span>
+                        <div class="w-full rounded-t-lg bg-blue-400 transition-all" style="height:${Math.round((v/max)*48)+4}px"></div>
+                        <span class="text-[10px] text-gray-400">Wk${i+1}</span>
+                    </div>
+                `).join('');
+            }
+            if (document.getElementById('stats-current-streak')) {
+                document.getElementById('stats-current-streak').innerText = currentStreak;
+                document.getElementById('stats-best-streak').innerText = bestStreak;
+                document.getElementById('stats-freezes').innerText = freezeShields;
+                document.getElementById('stats-books-read').innerText = readingLog.length;
+                const totalPages = readingLog.reduce((a, b) => a + (b.pages || 0), 0);
+                document.getElementById('stats-pages-read').innerText = totalPages;
+                const avg = readingLog.length ? (readingLog.reduce((a, b) => a + b.stars, 0) / readingLog.length).toFixed(1) : '-';
+                document.getElementById('stats-avg-stars').innerText = avg;
+                document.getElementById('stats-child-name').innerText = (childAvatar || '📊') + ' ' + (childName || '') + "'s Stats";
+            }
+        }
+
+        async function openStats() {
+            if (!currentUser) return;
+            playSound('click');
+            renderReadingLog();
+            renderStatsNumbers();
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('stats-modal').classList.remove('hidden');
+        }
+
+        // ═══════════════════════════
+        // ADMIN LEADERBOARD MANAGER
+        // ═══════════════════════════
+        async function openAdminLeaderboard() {
+            document.getElementById('inbox-modal').classList.add('hidden');
+            document.getElementById('admin-lb-modal').classList.remove('hidden');
+            const listEl = document.getElementById('admin-lb-list');
+            listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">Loading...</p>';
+            try {
+                const result = await window.storage.list('lb:', true);
+                if (!result || !result.keys || !result.keys.length) {
+                    listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">No entries yet.</p>';
+                    return;
+                }
+                const entries = [];
+                for (const key of result.keys) {
+                    try {
+                        const res = await window.storage.get(key, true);
+                        if (res && res.value) entries.push({ ...JSON.parse(res.value), key });
+                    } catch(e) {}
+                }
+                entries.sort((a, b) => b.days - a.days);
+                listEl.innerHTML = '';
+                entries.forEach((entry, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-3';
+                    row.innerHTML = `
+                        <div>
+                            <span class="font-bold text-sm text-gray-800">${idx + 1}. ${entry.avatar || ''} ${entry.name}</span>
+                            <span class="text-xs text-gray-400 ml-2">${entry.days} days</span>
+                        </div>
+                        <button onclick="adminDeleteLbEntry('${entry.key}', this)" class="text-xs bg-red-100 hover:bg-red-200 text-red-600 font-bold px-3 py-1 rounded-full transition">🗑️ Delete</button>
+                    `;
+                    listEl.appendChild(row);
+                });
+            } catch(e) {
+                listEl.innerHTML = '<p class="text-red-400 text-sm text-center py-4">Could not load.</p>';
+            }
+        }
+
+        async function adminDeleteLbEntry(key, btn) {
+            try {
+                await window.storage.delete(key, true);
+                btn.closest('div.flex').remove();
+            } catch(e) {}
+        }
+
+        function openRoadmap() {
+            playSound('click');
+            renderRoadmap();
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('roadmap-modal').classList.remove('hidden');
+        }
+
+        function askLbDelete() {
+            document.getElementById('lb-delete-confirm').classList.remove('hidden');
+            document.getElementById('lb-delete-btn').classList.add('hidden');
+        }
+
+        function cancelLbDelete() {
+            document.getElementById('lb-delete-confirm').classList.add('hidden');
+            document.getElementById('lb-delete-btn').classList.remove('hidden');
+        }
+
+        async function confirmLbDelete() {
+            if (!currentUser) return;
+            try {
+                const lbKey = 'lb:' + currentUser.email.toLowerCase().replace(/[^a-z0-9@._-]/g, '_');
+                await window.storage.delete(lbKey, true);
+                document.getElementById('lb-delete-confirm').classList.add('hidden');
+                document.getElementById('lb-delete-btn').classList.add('hidden');
+                document.getElementById('leaderboard-your-rank').innerText = '✅ Removed from leaderboard!';
+                document.getElementById('leaderboard-your-rank').classList.remove('hidden');
+                await renderLeaderboard();
+            } catch(e) {
+                document.getElementById('lb-delete-confirm').classList.add('hidden');
+                document.getElementById('lb-delete-btn').classList.remove('hidden');
+            }
+        }
+
+        function openDonate() {
+            playSound('click');
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('donate-modal').classList.remove('hidden');
+        }
+
+        function openFeedback() {
+            if (!currentUser) return;
+            playSound('click');
+            document.getElementById('feedback-sender-email').innerText = currentUser.email;
+            document.getElementById('feedback-text').value = '';
+            document.getElementById('feedback-char-count').innerText = '0';
+            document.getElementById('feedback-error').classList.add('hidden');
+            document.getElementById('feedback-sent-msg').classList.add('hidden');
+            document.getElementById('feedback-form-area').classList.remove('hidden');
+            document.getElementById('feedback-submit-btn').classList.remove('hidden');
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('feedback-modal').classList.remove('hidden');
+
+            document.getElementById('feedback-text').oninput = function() {
+                document.getElementById('feedback-char-count').innerText = this.value.length;
+            };
+        }
+
+        async function submitFeedback() {
+            if (!currentUser) return;
+            const text = document.getElementById('feedback-text').value.trim();
+            const errEl = document.getElementById('feedback-error');
+            errEl.classList.add('hidden');
+
+            if (!text) {
+                errEl.innerText = 'Please write something first!';
+                errEl.classList.remove('hidden'); return;
+            }
+
+            try {
+                const msgKey = 'msg:' + Date.now() + ':' + currentUser.email.replace(/[^a-z0-9]/gi, '_');
+                const entry = { from: currentUser.email, text, sent: Date.now() };
+                await window.storage.set(msgKey, JSON.stringify(entry), true);
+
+                document.getElementById('feedback-sent-msg').classList.remove('hidden');
+                document.getElementById('feedback-form-area').classList.add('hidden');
+                document.getElementById('feedback-submit-btn').classList.add('hidden');
+            } catch(e) {
+                errEl.innerText = 'Could not send — please try again.';
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        async function openInbox() {
+            if (!currentUser) return;
+            playSound('click');
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('inbox-modal').classList.remove('hidden');
+
+            // Title + admin-only tools depend on who's viewing
+            document.getElementById('inbox-title').innerText = isAdmin ? 'Admin Inbox' : 'My Messages';
+            document.getElementById('inbox-subtitle').innerText = isAdmin
+                ? 'Messages from your users' : 'Your messages to the team & their replies';
+            document.getElementById('inbox-admin-tools').classList.toggle('hidden', !isAdmin);
+
+            if (!isAdmin) { await renderUserInbox(); return; }
+
+            const listEl = document.getElementById('inbox-list');
+            listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">Loading...</p>';
+
+            try {
+                const result = await window.storage.list('msg:', true);
+                if (!result || !result.keys || result.keys.length === 0) {
+                    listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">No messages yet 📭</p>';
+                    return;
+                }
+
+                const messages = [];
+                for (const key of result.keys) {
+                    try {
+                        const res = await window.storage.get(key, true);
+                        if (res && res.value) messages.push({ ...JSON.parse(res.value), key });
+                    } catch(e) {}
+                }
+                messages.sort((a, b) => b.sent - a.sent);
+
+                listEl.innerHTML = '';
+                messages.forEach(msg => {
+                    const date = new Date(msg.sent).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const msgId = msg.key.replace(/[^a-zA-Z0-9_-]/g, '_');
+                    const hasReply = !!msg.reply;
+
+                    const el = document.createElement('div');
+                    el.className = 'bg-indigo-50 border border-indigo-200 rounded-2xl p-4 space-y-2';
+                    el.id = 'inbox-entry-' + msgId;
+                    el.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-600">📧 ${msg.from}</span>
+                            <span class="text-[10px] text-gray-400">${date}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 leading-relaxed">${msg.text}</p>
+                        ${hasReply ? `<div class="bg-green-50 border border-green-200 rounded-xl p-2 text-xs text-green-700"><strong>Your reply:</strong> ${msg.reply}</div>` : ''}
+                        <div id="reply-form-${msgId}" class="${hasReply ? 'hidden' : ''}">
+                            <textarea id="reply-text-${msgId}" rows="2" maxlength="300"
+                                class="w-full border-2 border-indigo-200 rounded-xl p-2 text-xs focus:outline-none focus:border-indigo-400 resize-none"
+                                placeholder="Write a reply..."></textarea>
+                            <div class="flex gap-2 mt-1">
+                                <button onclick="sendAdminReply('${msg.key}', '${msgId}', '${msg.from}')"
+                                    class="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold py-1.5 rounded-xl transition">
+                                    Send Reply ↩️
+                                </button>
+                                <button onclick="document.getElementById('reply-form-${msgId}').classList.add('hidden')"
+                                    class="text-xs text-gray-400 hover:text-gray-600 px-2">Cancel</button>
+                            </div>
+                        </div>
+                        ${!hasReply ? `<button onclick="document.getElementById('reply-form-${msgId}').classList.remove('hidden')" class="text-xs bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-bold px-3 py-1 rounded-full transition">↩️ Reply</button>` : ''}
+                    `;
+                    listEl.appendChild(el);
+                });
+            } catch(e) {
+                listEl.innerHTML = '<p class="text-red-400 text-sm text-center py-4">Could not load messages.</p>';
+            }
+        }
+
+        // ── Regular user's view of their own messages + the admin's replies ──
+        async function renderUserInbox() {
+            const listEl = document.getElementById('inbox-list');
+            listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">Loading...</p>';
+            try {
+                const result = await window.storage.list('msg:', true);
+                const mine = [];
+                if (result && result.keys) {
+                    for (const key of result.keys) {
+                        try {
+                            const res = await window.storage.get(key, true);
+                            if (res && res.value) {
+                                const m = JSON.parse(res.value);
+                                if (m.from === currentUser.email) mine.push(m);
+                            }
+                        } catch(e) {}
+                    }
+                }
+                if (!mine.length) {
+                    listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-6">You haven\'t sent any messages yet. Use 💬 Suggest to send one!</p>';
+                    return;
+                }
+                mine.sort((a, b) => b.sent - a.sent);
+                listEl.innerHTML = mine.map(m => {
+                    const date = new Date(m.sent).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    return `
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-indigo-600">📨 You wrote</span>
+                                <span class="text-[10px] text-gray-400">${date}</span>
+                            </div>
+                            <p class="text-sm text-gray-700 leading-relaxed">${m.text}</p>
+                            ${m.reply
+                                ? `<div class="bg-green-50 border border-green-200 rounded-xl p-2 text-xs text-green-700"><strong>👑 Reply from the team:</strong> ${m.reply}</div>`
+                                : `<div class="text-[11px] text-gray-400 italic">⏳ Waiting for a reply…</div>`}
+                        </div>`;
+                }).join('');
+            } catch(e) {
+                listEl.innerHTML = '<p class="text-red-400 text-sm text-center py-4">Could not load your messages.</p>';
+            }
+        }
+
+        async function sendAdminReply(msgKey, msgId, toEmail) {
+            const replyText = document.getElementById('reply-text-' + msgId)?.value?.trim();
+            if (!replyText) return;
+
+            try {
+                // Load existing message and add reply field
+                const res = await window.storage.get(msgKey, true);
+                const msgData = JSON.parse(res.value);
+                msgData.reply = replyText;
+                msgData.repliedAt = Date.now();
+                await window.storage.set(msgKey, JSON.stringify(msgData), true);
+
+                // Save reply for the user to see in their own inbox
+                const userReplyKey = 'reply:' + toEmail.replace(/[^a-z0-9@._-]/g, '_') + ':' + Date.now();
+                await window.storage.set(userReplyKey, JSON.stringify({
+                    from: ADMIN_EMAIL,
+                    to: toEmail,
+                    originalText: msgData.text,
+                    reply: replyText,
+                    sentAt: Date.now()
+                }), true);
+
+                // Update UI
+                const form = document.getElementById('reply-form-' + msgId);
+                if (form) {
+                    form.outerHTML = `<div class="bg-green-50 border border-green-200 rounded-xl p-2 text-xs text-green-700"><strong>Your reply:</strong> ${replyText}</div>`;
+                }
+            } catch(e) {
+                alert('Could not send reply. Try again.');
+            }
+        }
+
+        async function openLeaderboard() {
+            playSound('click');
+            modalOverlay.classList.remove('hidden');
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+            await renderLeaderboard();
+        }
+
+        async function renderLeaderboard() {
+            const listEl = document.getElementById('leaderboard-list');
+            const rankEl = document.getElementById('leaderboard-your-rank');
+            listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">Loading scores...</p>';
+            rankEl.classList.add('hidden');
+
+            try {
+                const result = await window.storage.list('lb:', true);
+                if (!result || !result.keys || result.keys.length === 0) {
+                    listEl.innerHTML = '<p class="text-gray-400 text-sm text-center py-6">No scores yet — be the first! 🌟</p>';
+                    return;
+                }
+
+                const entries = [];
+                for (const key of result.keys) {
+                    try {
+                        const res = await window.storage.get(key, true);
+                        if (res && res.value) {
+                            const data = JSON.parse(res.value);
+                            if (data.name && typeof data.days === 'number') {
+                                entries.push({ ...data, key });
+                            }
+                        }
+                    } catch(e) {}
+                }
+
+                entries.sort((a, b) => b.days - a.days || a.updated - b.updated);
+
+                const medals = ['🥇', '🥈', '🥉'];
+                const podiumColors = [
+                    'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-400',
+                    'bg-gradient-to-r from-gray-50 to-slate-50 border-gray-300',
+                    'bg-gradient-to-r from-orange-50 to-amber-50 border-orange-300'
+                ];
+
+                listEl.innerHTML = '';
+                let myRank = -1;
+
+                entries.forEach((entry, idx) => {
+                    const rank = idx + 1;
+                    const isMe = currentUser && entry.key === 'lb:' + currentUser.email.toLowerCase().replace(/[^a-z0-9@._-]/g, '_');
+                    if (isMe) myRank = rank;
+
+                    const pct = Math.round((entry.days / TOTAL_DAYS) * 100);
+                    const medal = medals[idx] || `#${rank}`;
+                    const colorClass = idx < 3 ? podiumColors[idx] : 'bg-gray-50 border-gray-200';
+                    const meClass = isMe ? 'ring-2 ring-pink-400 ring-offset-1' : '';
+
+                    const row = document.createElement('div');
+                    row.className = `flex items-center gap-3 p-3 rounded-2xl border-2 ${colorClass} ${meClass} transition-all`;
+                    row.innerHTML = `
+                        <span class="text-2xl w-8 text-center shrink-0">${medal}</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span class="text-lg">${entry.avatar || '🧒'}</span>
+                                <span class="font-bold text-stone-800 text-sm truncate">${entry.name}</span>
+                                ${isMe ? '<span class="text-[10px] bg-pink-100 text-pink-600 font-bold px-1.5 py-0.5 rounded-full shrink-0">YOU</span>' : ''}
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="h-2 rounded-full ${idx === 0 ? 'bg-gradient-to-r from-yellow-400 to-amber-500' : 'bg-gradient-to-r from-pink-400 to-purple-500'}" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+                        <span class="text-sm font-extrabold text-stone-700 shrink-0">${entry.days}<span class="text-xs font-normal text-gray-400">/${TOTAL_DAYS}</span></span>
+                    `;
+                    listEl.appendChild(row);
+                });
+
+                if (myRank > 0) {
+                    const gap = myRank > 1 ? entries[myRank - 2].days - entries[myRank - 1].days : 0;
+                    rankEl.classList.remove('hidden');
+                    if (myRank === 1) {
+                        rankEl.innerHTML = `🎉 ${childName || 'You'} is in 1st place! Keep it up! 🔥`;
+                    } else {
+                        rankEl.innerHTML = `📍 ${childName || 'You'} is rank #${myRank} — only ${gap} day${gap !== 1 ? 's' : ''} behind #${myRank - 1}!`;
+                    }
+                    document.getElementById('lb-delete-btn').classList.remove('hidden');
+                    document.getElementById('lb-delete-confirm').classList.add('hidden');
+                } else if (currentUser && childName) {
+                    rankEl.classList.remove('hidden');
+                    rankEl.innerHTML = `Complete a reading day to appear on the leaderboard! 📚`;
+                    document.getElementById('lb-delete-btn').classList.add('hidden');
+                }
+
+            } catch(e) {
+                listEl.innerHTML = '<p class="text-red-400 text-sm text-center py-4">Could not load leaderboard. Try again later.</p>';
+            }
+        }
+
+        function openAuth(absoluteDay) {
+            playSound('click');
+            pendingDay = absoluteDay;
+            pendingNextMonthReq = false;
+            isRemovalRequest = false;
+            authDesc.innerHTML = `Please enter parental security code to verify that ${childName} completed Day ${absoluteDay + 1}:`;
+            modalOverlay.classList.remove('hidden');
+            authModal.classList.remove('hidden');
+            document.getElementById('auth-msg').classList.add('hidden');
+            document.getElementById('code-input').focus();
+        }
+
+        function openRemovalAuth(absoluteDay) {
+            playSound('click');
+            pendingDay = absoluteDay;
+            pendingNextMonthReq = false;
+            isRemovalRequest = true;
+            authDesc.innerHTML = `⚠️ Parent authorization required to <strong>REMOVE/DESELECT</strong> the star from Day ${absoluteDay + 1}:`;
+            modalOverlay.classList.remove('hidden');
+            authModal.classList.remove('hidden');
+            document.getElementById('auth-msg').classList.add('hidden');
+            document.getElementById('code-input').focus();
+        }
+
+        async function verifyCode() {
+            const input = document.getElementById('code-input').value;
+            const actualCode = loadItemSync('parentCode');
+
+            if (input === actualCode) {
+                document.getElementById('code-input').value = '';
+
+                if (pendingNextMonthReq) {
+                    closeModals();
+                    initializeNextMonth();
+                } else if (isRemovalRequest) {
+                    progress[pendingDay] = false;
+                    closeModals();
+                    playSound('remove');
+                    renderTracker();
+                    storeItem(`hodayaProgress_M${currentMonth}`, JSON.stringify(progress)); // save in background
+                } else {
+                    progress[pendingDay] = true;
+                    closeModals();
+                    checkNewAccomplishments();
+                    storeItem(`hodayaProgress_M${currentMonth}`, JSON.stringify(progress)); // save in background
+                }
+            } else {
+                playSound('click');
+                const msg = document.getElementById('auth-msg');
+                msg.innerText = "Incorrect security code! Please try again.";
+                msg.classList.remove('hidden');
+            }
+        }
+
+        function checkNewAccomplishments() {
+            renderTracker();
+
+            const finishedAll = progress.every(p => p);
+            if (finishedAll) {
+                playSound('success');
+                launchConfetti(120);
+                modalOverlay.classList.remove('hidden');
+                document.getElementById('month-celebration-prize-text').innerText = `⭐️ ${systemConfig.monthlyPrize} ⭐️`;
+                monthCelebrationModal.classList.remove('hidden');
+                return;
+            }
+
+            const completedBlockIdx = Math.floor(pendingDay / systemConfig.rewardInterval);
+            let blockCleared = true;
+            const startDay = completedBlockIdx * systemConfig.rewardInterval;
+            const endDay = Math.min(startDay + systemConfig.rewardInterval, TOTAL_DAYS);
+
+            for (let d = startDay; d < endDay; d++) {
+                if (!progress[d]) {
+                    blockCleared = false;
+                    break;
+                }
+            }
+
+            if (blockCleared) {
+                playSound('unlock');
+                launchConfetti(60);
+                modalOverlay.classList.remove('hidden');
+                document.getElementById('week-celebration-prize-text').innerText = systemConfig.weeklyPrize;
+                weekCelebrationModal.classList.remove('hidden');
+            } else {
+                playSound('click');
+                closeModals();
+            }
+
+            // Update streak — only add today if not already added today
+            const today = todayStr();
+            if (!streakDates.includes(today)) {
+                streakDates.push(today);
+                storeItem('streakDates', JSON.stringify(streakDates));
+            }
+            updateStreakUI();
+            if (currentStreak > bestStreak) {
+                bestStreak = currentStreak;
+                storeItem('bestStreak', bestStreak.toString());
+            }
+            storeItem('freezeShields', freezeShields.toString());
+        }
+
+        async function saveInitialSetup() {
+            const nameVal = document.getElementById('setup-name-input').value.trim();
+            const codeVal = document.getElementById('setup-code-input').value.trim();
+            const setupMsg = document.getElementById('setup-msg');
+
+            setupMsg.classList.add('hidden');
+
+            if (!nameVal) {
+                setupMsg.innerText = "Please enter your child's name first!";
+                setupMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (codeVal.length < 2) {
+                setupMsg.innerText = "Please choose an approval code of at least 2 digits.";
+                setupMsg.classList.remove('hidden');
+                return;
+            }
+
+            await storeItem('childName', nameVal);
+            await storeItem('parentCode', codeVal);
+            await storeItem('weeklyPrize', appCfg.defaultWeekly);
+            await storeItem('monthlyPrize', appCfg.defaultMonthly);
+            await storeItem('appTheme', 'pink');
+            await storeItem('audioEnabled', 'true');
+            await storeItem('rewardInterval', String(appCfg.defaultInterval));
+
+            childName = nameVal;
+            systemConfig.weeklyPrize = appCfg.defaultWeekly;
+            systemConfig.monthlyPrize = appCfg.defaultMonthly;
+            systemConfig.appTheme = 'pink';
+            systemConfig.audioEnabled = true;
+            systemConfig.rewardInterval = appCfg.defaultInterval;
+
+            applyTheme('pink');
+            updateAudioButtonUI();
+            updateChildNameUI();
+            // Show avatar bar + quote after setup
+            document.getElementById('avatar-display').innerText = childAvatar;
+            document.getElementById('child-name-display').innerText = childName;
+            document.getElementById('avatar-streak-bar').classList.remove('hidden');
+            if (currentUser) {
+                document.getElementById('sb-stats-btn').classList.remove('hidden');
+            }
+            showDailyQuote();
+            updateStreakUI();
+            closeModals();
+            renderTracker();
+            launchConfetti(50);
+            playSound('success');
+        }
+
+        function openSettings() {
+            playSound('click');
+            modalOverlay.classList.remove('hidden');
+            settingsModal.classList.remove('hidden');
+            document.getElementById('settings-msg').classList.add('hidden');
+
+            document.getElementById('settings-name-input').value = childName || '';
+            document.getElementById('settings-weekly-prize').value = systemConfig.weeklyPrize || '';
+            document.getElementById('settings-monthly-prize').value = systemConfig.monthlyPrize || '';
+            document.getElementById('settings-theme-select').value = systemConfig.appTheme || 'pink';
+            document.getElementById('settings-audio-checkbox').checked = systemConfig.audioEnabled;
+            document.getElementById('settings-interval-select').value = systemConfig.rewardInterval.toString();
+            document.getElementById('settings-freeze-interval').value = (freezeEarnInterval || 7).toString();
+        }
+
+        async function saveNewSettings() {
+            const nameInput = document.getElementById('settings-name-input').value.trim();
+            const oldInput = document.getElementById('old-code-input').value;
+            const newInput = document.getElementById('new-code-input').value.trim();
+            const weeklyPrizeInput = document.getElementById('settings-weekly-prize').value.trim();
+            const monthlyPrizeInput = document.getElementById('settings-monthly-prize').value.trim();
+            const themeInput = document.getElementById('settings-theme-select').value;
+            const audioInput = document.getElementById('settings-audio-checkbox').checked;
+            const intervalInput = parseInt(document.getElementById('settings-interval-select').value) || 6;
+            const freezeIntervalInput = parseInt(document.getElementById('settings-freeze-interval').value) || 7;
+
+            const settingsMsg = document.getElementById('settings-msg');
+            settingsMsg.classList.add('hidden');
+
+            if (oldInput !== loadItemSync('parentCode')) {
+                settingsMsg.innerText = "Current parent code is incorrect.";
+                settingsMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (!nameInput) {
+                settingsMsg.innerText = "Child's name cannot be left blank.";
+                settingsMsg.classList.remove('hidden');
+                return;
+            }
+
+            await storeItem('childName', nameInput);
+            childName = nameInput;
+            document.getElementById('child-name-display').innerText = childName;
+
+            if (newInput) {
+                if (newInput.length >= 2) {
+                    await storeItem('parentCode', newInput);
+                } else {
+                    settingsMsg.innerText = "New code must be at least 2 digits.";
+                    settingsMsg.classList.remove('hidden');
+                    return;
+                }
+            }
+
+            systemConfig.weeklyPrize = weeklyPrizeInput || '3 Shekels (3₪) for the Kiosk or a special prize!';
+            systemConfig.monthlyPrize = monthlyPrizeInput || '7 Shekels (7₪) & Sparkly Certificate!';
+            systemConfig.appTheme = themeInput;
+            systemConfig.audioEnabled = audioInput;
+            systemConfig.rewardInterval = intervalInput;
+            freezeEarnInterval = freezeIntervalInput;
+
+            await storeItem('weeklyPrize', systemConfig.weeklyPrize);
+            await storeItem('monthlyPrize', systemConfig.monthlyPrize);
+            await storeItem('appTheme', systemConfig.appTheme);
+            await storeItem('audioEnabled', systemConfig.audioEnabled.toString());
+            await storeItem('rewardInterval', systemConfig.rewardInterval.toString());
+            await storeItem('freezeEarnInterval', freezeEarnInterval.toString());
+
+            applyTheme(systemConfig.appTheme);
+            updateAudioButtonUI();
+            updateChildNameUI();
+            document.getElementById('child-name-display').innerText = childName;
+            closeModals();
+            renderTracker();
+            playSound('success');
+        }
+
+        function triggerNextMonthApproval() {
+            playSound('click');
+            pendingNextMonthReq = true;
+            isRemovalRequest = false;
+            authDesc.innerHTML = `Parent code verification required to save Month ${currentMonth} and start the next month of reading:`;
+            modalOverlay.classList.remove('hidden');
+            authModal.classList.remove('hidden');
+            document.getElementById('auth-msg').classList.add('hidden');
+            document.getElementById('code-input').focus();
+        }
+
+        async function initializeNextMonth() {
+            currentMonth += 1;
+            await storeItem('hodayaMonth', currentMonth.toString());
+
+            progress = Array(TOTAL_DAYS).fill(false);
+            await storeItem(`hodayaProgress_M${currentMonth}`, JSON.stringify(progress));
+
+            streakDates = [];
+            await storeItem('streakDates', JSON.stringify(streakDates));
+            currentStreak = 0;
+            updateStreakUI();
+
+            document.getElementById('sticker-canvas').innerHTML = '';
+            renderTracker();
+            playSound('success');
+        }
+
+        function openResetConfirmation() {
+            playSound('click');
+            settingsModal.classList.add('hidden');
+            resetConfirmModal.classList.remove('hidden');
+        }
+
+        function closeResetConfirmation() {
+            playSound('click');
+            resetConfirmModal.classList.add('hidden');
+            settingsModal.classList.remove('hidden');
+        }
+
+        async function executeCompleteReset() {
+            await clearAllData();
+            location.reload();
+        }
+
+        function closeModals() {
+            modalOverlay.classList.add('hidden');
+            setupModal.classList.add('hidden');
+            authModal.classList.add('hidden');
+            settingsModal.classList.add('hidden');
+            weekCelebrationModal.classList.add('hidden');
+            monthCelebrationModal.classList.add('hidden');
+            resetConfirmModal.classList.add('hidden');
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+            document.getElementById('donate-modal').classList.add('hidden');
+            document.getElementById('feedback-modal').classList.add('hidden');
+            document.getElementById('inbox-modal').classList.add('hidden');
+            document.getElementById('admin-login-modal').classList.add('hidden');
+            document.getElementById('roadmap-modal').classList.add('hidden');
+            document.getElementById('stats-modal').classList.add('hidden');
+            document.getElementById('admin-lb-modal').classList.add('hidden');
+            document.getElementById('admin-control-modal').classList.add('hidden');
+
+            document.getElementById('code-input').value = '';
+            document.getElementById('old-code-input').value = '';
+            document.getElementById('new-code-input').value = '';
+        }
+
+        function showWeeklyRewardDetails(blockIdx, isBlockCompleted) {
+            playSound('click');
+            document.getElementById('week-celebration-gift-for').innerText = `🎉 ${childName} gets:`;
+            document.getElementById('week-celebration-prize-text').innerText = systemConfig.weeklyPrize;
+
+            modalOverlay.classList.remove('hidden');
+            weekCelebrationModal.classList.remove('hidden');
+        }
+
+        function showCertificate() {
+            playSound('unlock');
+            document.getElementById('cert-reward-voucher').innerText = `🍭 ${systemConfig.monthlyPrize} 🍬`;
+            document.getElementById('cert-modal').classList.remove('hidden');
+        }
+
+        function closeCert() {
+            playSound('click');
+            document.getElementById('cert-modal').classList.add('hidden');
+        }
+
+        function printCertificate() {
+            playSound('click');
+            window.focus();
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        function addSticker(emoji) {
+            playSound('click');
+            const canvas = document.getElementById('sticker-canvas');
+            const sticker = document.createElement('div');
+
+            sticker.innerText = emoji;
+            sticker.className = 'absolute text-5xl cursor-grab active:cursor-grabbing select-none pointer-events-auto sticker-draggable p-2 transition-transform hover:scale-110';
+
+            sticker.style.left = '45%';
+            sticker.style.top = '40%';
+
+            canvas.appendChild(sticker);
+            enableDraggable(sticker);
+        }
+
+        function enableDraggable(element) {
+            let active = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            const container = document.getElementById('cert-container-box');
+
+            element.addEventListener("touchstart", dragStart, { passive: false });
+            element.addEventListener("touchend", dragEnd, { passive: false });
+            element.addEventListener("touchmove", drag, { passive: false });
+
+            element.addEventListener("mousedown", dragStart, false);
+            element.addEventListener("mouseup", dragEnd, false);
+            element.addEventListener("mousemove", drag, false);
+
+            element.addEventListener("dblclick", () => {
+                playSound('click');
+                element.remove();
+            });
+
+            let lastTap = 0;
+            element.addEventListener("touchstart", (e) => {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    playSound('click');
+                    element.remove();
+                    e.preventDefault();
+                }
+                lastTap = currentTime;
+            }, { passive: false });
+
+            function dragStart(e) {
+                playSound('click');
+                let clientX, clientY;
+                if (e.type === "touchstart") {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                initialX = clientX - xOffset;
+                initialY = clientY - yOffset;
+                active = true;
+            }
+
+            function dragEnd(e) {
+                if (!active) return;
+                active = false;
+
+                const containerRect = container.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+
+                const relX = elementRect.left - containerRect.left;
+                const relY = elementRect.top - containerRect.top;
+
+                const leftPct = (relX / containerRect.width) * 100;
+                const topPct = (relY / containerRect.height) * 100;
+
+                const finalLeft = Math.max(0, Math.min(leftPct, 92));
+                const finalTop = Math.max(0, Math.min(topPct, 90));
+
+                element.style.left = finalLeft + "%";
+                element.style.top = finalTop + "%";
+                element.style.transform = "none";
+
+                xOffset = 0;
+                yOffset = 0;
+            }
+
+            function drag(e) {
+                if (active) {
+                    e.preventDefault();
+                    let clientX, clientY;
+                    if (e.type === "touchmove") {
+                        clientX = e.touches[0].clientX;
+                        clientY = e.touches[0].clientY;
+                    } else {
+                        clientX = e.clientX;
+                        clientY = e.clientY;
+                    }
+                    currentX = clientX - initialX;
+                    currentY = clientY - initialY;
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    element.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0)";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
