@@ -242,7 +242,7 @@
         @media print {
             @page {
                 size: portrait;
-                margin: 1cm;
+                margin: 0.5cm;
             }
             /* Remove everything except the certificate modal from the page flow */
             body.printing-cert > *:not(#cert-modal) { display: none !important; }
@@ -257,18 +257,26 @@
                 overflow: visible !important;
                 display: block !important;
             }
+            /* Stage prints unconstrained; the box prints unscaled at its true 720px size */
+            body.printing-cert #cert-stage {
+                width: auto !important;
+                max-width: none !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            body.printing-cert #cert-container-box { transform: none !important; }
             /* Lay the certificate out in normal flow, sized to its content.
                Keep it `relative` (NOT static) so the absolutely-positioned
                #sticker-canvas stays anchored to the certificate and stickers
                print exactly where they were dragged. */
             body.printing-cert #cert-container-box {
                 position: relative !important;
-                width: 100% !important;
+                width: 720px !important;
                 max-width: 100% !important;
                 min-height: 0 !important;
                 height: auto !important;
                 margin: 0 auto !important;
-                padding: 2rem !important;
+                padding: 2.5rem !important;
                 border: 16px double #eab308 !important;
                 background-color: #fffdf5 !important;
                 box-shadow: none !important;
@@ -300,6 +308,10 @@
         .sticker-draggable {
             touch-action: none;
             user-select: none;
+            /* Prefer real colour-emoji fonts so glyphs render (and print) instead of
+               showing an empty "tofu" box for unsupported characters */
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+            line-height: 1;
         }
         /* ── SIDEBAR ── */
         .sidebar-panel {
@@ -1000,8 +1012,11 @@
             </p>
         </div>
 
-        <!-- The printable certificate layout box -->
-        <div class="max-w-3xl mx-auto bg-[#fffdf5] border-[16px] border-double border-yellow-500 p-8 md:p-12 relative shadow-2xl rounded-md text-stone-800" id="cert-container-box">
+        <!-- Scaling stage: keeps a fixed 720px design that's scaled to fit any screen,
+             so sticker positions are identical on phone, desktop AND print -->
+        <div id="cert-stage" class="mx-auto" style="width:720px;max-width:100%;overflow:hidden">
+        <!-- The printable certificate layout box (fixed 720px design width) -->
+        <div class="bg-[#fffdf5] border-[16px] border-double border-yellow-500 relative shadow-2xl rounded-md text-stone-800" id="cert-container-box" style="width:720px;padding:2.5rem">
 
             <!-- Beautiful Gold Border Decorators -->
             <div class="absolute top-4 left-4 text-3xl select-none text-yellow-500">✨</div>
@@ -1011,27 +1026,27 @@
 
             <!-- Header and Achievement badge -->
             <div class="text-center relative z-10">
-                <div class="text-5xl md:text-6xl mb-4 select-none">👑🏆🎓</div>
-                <h1 class="text-4xl md:text-5xl font-serif font-bold text-yellow-600 mb-4 tracking-wide uppercase">
+                <div class="text-6xl mb-4 select-none">👑🏆🎓</div>
+                <h1 class="text-5xl font-serif font-bold text-yellow-600 mb-4 tracking-wide uppercase">
                     Certificate of Achievement
                 </h1>
-                <p class="text-lg md:text-xl font-semibold italic text-pink-500 mb-6">"Today a reader, tomorrow a leader!"</p>
+                <p class="text-xl font-semibold italic text-pink-500 mb-6">"Today a reader, tomorrow a leader!"</p>
 
-                <p class="text-xl md:text-2xl text-gray-700 mb-4">This certifies that the amazing</p>
+                <p class="text-2xl text-gray-700 mb-4">This certifies that the amazing</p>
 
                 <!-- Dynamic display of Child's Name -->
-                <h2 id="cert-child-name" class="text-4xl md:text-5xl font-extrabold text-purple-600 font-sans tracking-wide border-b-4 border-dashed border-purple-200 pb-3 max-w-lg mx-auto select-none">
+                <h2 id="cert-child-name" class="text-5xl font-extrabold text-purple-600 font-sans tracking-wide border-b-4 border-dashed border-purple-200 pb-3 max-w-lg mx-auto select-none">
                     Student Name
                 </h2>
 
-                <p class="text-lg md:text-xl text-gray-700 mt-6 leading-relaxed">
+                <p class="text-xl text-gray-700 mt-6 leading-relaxed">
                     has successfully completed a magnificent month of daily reading!<br>
                     They are officially awarded the grand monthly reward of:
                 </p>
 
                 <!-- Reward highlights within certificate -->
                 <div class="mt-4 bg-yellow-100/50 inline-block px-8 py-3 rounded-full border border-yellow-300 select-none max-w-full">
-                    <span id="cert-reward-voucher" class="text-lg md:text-xl font-extrabold text-yellow-700 break-words">🍭 Custom Grand Reward! 🍬</span>
+                    <span id="cert-reward-voucher" class="text-xl font-extrabold text-yellow-700 break-words">🍭 Custom Grand Reward! 🍬</span>
                 </div>
 
                 <div class="mt-8 flex justify-around items-center border-t border-yellow-200 pt-8 text-sm text-gray-500">
@@ -1049,6 +1064,7 @@
             <!-- Absolute sticker canvas (Container for added draggable elements) -->
             <div id="sticker-canvas" class="absolute inset-0 overflow-hidden pointer-events-none z-20"></div>
         </div>
+        </div><!-- /#cert-stage -->
 
         <!-- Controls & Custom stickers (Kept hidden during prints) -->
         <div class="max-w-3xl mx-auto mt-6 flex flex-col md:flex-row items-center justify-between gap-4 no-print bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20">
@@ -2828,10 +2844,33 @@
             weekCelebrationModal.classList.remove('hidden');
         }
 
+        // Certificate keeps a fixed 720px internal design and is visually scaled to fit
+        // whatever space is available. This makes sticker positions (stored as %)
+        // land in the exact same place on phone, desktop and the printed page.
+        let certScale = 1;
+        function fitCertificate() {
+            const stage = document.getElementById('cert-stage');
+            const box = document.getElementById('cert-container-box');
+            if (!stage || !box) return;
+            if (document.getElementById('cert-modal').classList.contains('hidden')) return;
+            box.style.transform = 'none';
+            const avail = stage.clientWidth;
+            certScale = Math.min(1, avail / 720);
+            box.style.transformOrigin = 'top left';
+            box.style.transform = 'scale(' + certScale + ')';
+            stage.style.height = (box.offsetHeight * certScale) + 'px';
+        }
+        window.addEventListener('resize', fitCertificate);
+        window.addEventListener('orientationchange', () => setTimeout(fitCertificate, 250));
+
         function showCertificate() {
             playSound('unlock');
             document.getElementById('cert-reward-voucher').innerText = `🍭 ${systemConfig.monthlyPrize} 🍬`;
             document.getElementById('cert-modal').classList.remove('hidden');
+            // Fit after the modal is visible & laid out. Double rAF waits for the
+            // post-show layout; the timeout is a safety net for slower devices.
+            requestAnimationFrame(() => requestAnimationFrame(fitCertificate));
+            setTimeout(fitCertificate, 200);
         }
 
         function closeCert() {
@@ -2856,9 +2895,11 @@
         });
         window.addEventListener('afterprint', () => {
             document.body.classList.remove('printing-cert');
+            fitCertificate(); // restore on-screen scaling after the print dialog closes
         });
 
         function addSticker(emoji) {
+            if (!emoji || !emoji.trim()) return; // never create an empty sticker box
             playSound('click');
             const canvas = document.getElementById('sticker-canvas');
             const sticker = document.createElement('div');
@@ -2877,8 +2918,10 @@
             let active = false;
             let currentX;
             let currentY;
-            let initialX;
-            let initialY;
+            let startClientX = 0;
+            let startClientY = 0;
+            let startXOffset = 0;
+            let startYOffset = 0;
             let xOffset = 0;
             let yOffset = 0;
 
@@ -2919,8 +2962,10 @@
                     clientX = e.clientX;
                     clientY = e.clientY;
                 }
-                initialX = clientX - xOffset;
-                initialY = clientY - yOffset;
+                startClientX = clientX;
+                startClientY = clientY;
+                startXOffset = xOffset;
+                startYOffset = yOffset;
                 active = true;
             }
 
@@ -2959,8 +3004,10 @@
                         clientX = e.clientX;
                         clientY = e.clientY;
                     }
-                    currentX = clientX - initialX;
-                    currentY = clientY - initialY;
+                    // Divide the screen-space delta by the certificate's current scale
+                    // so the sticker tracks the finger/cursor 1:1 even when scaled down.
+                    currentX = startXOffset + (clientX - startClientX) / certScale;
+                    currentY = startYOffset + (clientY - startClientY) / certScale;
 
                     xOffset = currentX;
                     yOffset = currentY;
